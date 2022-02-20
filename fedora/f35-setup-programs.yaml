@@ -208,4 +208,16 @@
             - 'zoom'
             - 'zoxide'
             - 'zsh'
+# Programs for Data Science
+            - 'python3-notebook'
+            - 'mathjax'
+            - 'sscg'
+            - 'python3-seaborn' 
+            - 'python3-lxml '
+            - 'python3-basemap' 
+            - 'python3-scikit-image' 
+            - 'python3-scikit-learn'
+            - 'python3-sympy'
+            - 'python3-dask+dataframe' 
+            - 'python3-nltk'           
         state: present
