@@ -1,0 +1,72 @@
+---
+- name: "Setup local Fedora 35 system (user) flatpak"
+  hosts: localhost
+  connection: local
+  tasks:
+
+    - name: Add the flathub repository remote to the user installation
+      community.general.flatpak_remote:
+        name: flathub
+        state: present
+        flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
+        method: user
+        
+    - name: Add the Fedora repository remote to the user installation
+      community.general.flatpak_remote:
+        name: flathub
+        state: present
+        flatpakrepo_url: fedora oci+https://registry.fedoraproject.org
+        method: user        
+ 
+    - name: Install flatpaks (flathub)
+      community.general.flatpak:
+        remote: flathub
+        method: user
+        name:
+          - 'com.axosoft.GitKraken'
+          - 'com.belmoussaoui.Obfuscate'
+          - 'com.bitwarden.desktop'
+          - 'com.bluejeans.BlueJeans'
+          - 'com.calibre_ebook.calibre'
+          - 'com.discordapp.Discord'
+          - 'com.dropbox.Client'
+          - 'com.github.robertsanseries.ciano'
+          - 'com.github.xournalpp.xournalpp'
+          - 'com.gitlab.bitseater.meteo'
+          - 'com.jetbrains.CLion'
+          - 'com.meetfranz.Franz'
+          - 'com.obsproject.Studio'
+          - 'com.skype.Client'
+          - 'com.slack.Slack'
+          - 'com.spotify.Client'
+          - 'de.haeckerfelix.Fragments'
+          - 'de.manuel_kehl.go-for-it'
+          - 'fr.handbrake.ghb'
+          - 'im.riot.Riot'
+          - 'io.brackets.Brackets'
+          - 'io.dbeaver.DBeaverCommunity'
+          - 'io.exodus.Exodus'
+          - 'io.github.gitahead.GitAhead'
+          - 'io.github.obiwankennedy.HotShots'
+          - 'io.github.shiftey.Desktop'
+          - 'net.ankiweb.Anki'
+          - 'net.codeindustry.MasterPDFEditor'
+          - 'net.cozic.joplin_desktop'
+          - 'net.sourceforge.jpdftweak.jPdfTweak'
+          - 'org.audacityteam.Audacity'
+          - 'org.freeplane.App'
+          - 'org.gnome.GTG'
+          - 'org.gnome.PasswordSafe'
+          - 'org.jabref.jabref'
+          - 'org.jdownloader.JDownloader'
+          - 'org.jitsi.jitsi-meet'
+          - 'org.ksnip.ksnip'
+          - 'org.nmap.Zenmap'
+          - 'org.signal.Signal'
+          - 'org.telegram.desktop'
+
+    - name: Disable Gnome software download update
+      community.general.dconf:
+        key: "/org/gnome/software/download-updates"
+        value: "false"
+        state: present

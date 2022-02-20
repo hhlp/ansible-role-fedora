@@ -1,0 +1,10 @@
+---
+- name: Install VsCode Role
+  hosts: localhost
+  gather_facts: yes
+  become: no
+
+  tasks:
+    - name: COnfigure VsCode using Role
+      import_role:
+        name: vscode

@@ -1,0 +1,47 @@
+---
+  - name: "Setup Docker Fedora 35 system (root)"
+    hosts: localhost
+    connection: local
+    become: yes
+    tasks: 
+    
+    - name: Add Docker CE repo
+      get_url:
+            url: https://download.docker.com/linux/fedora/docker-ce.repo
+            dest: /etc/yum.repos.d/docker-ce.repo
+
+    - name: Install Docker
+      dnf: name=docker state=latest
+
+    - name: Start and enable the Docker daemon
+      service: name=docker state=started enabled=yes
+  
+    - name: Install docker-compose
+      get_url: 
+            url : https://github.com/docker/compose/releases/download/v2.1.1/docker-compose-linux-x86_64
+            dest: /usr/local/bin/docker-compose
+            mode: 'u+x,g+x'
+   
+    - name: Enable Experimental Fucntions in Docker
+      copy:
+        dest: "/etc/docker/daemon.json"
+        content: |
+          {
+          "experimental": true
+          }
+  
+    - name: Install Docker Machine 
+      shell: |
+         curl -L https://github.com/docker/machine/releases/download/v0.16.2/docker-machine-`uname -s`-`uname -m` >/tmp/docker-machine &&
+         chmod +x /tmp/docker-machine &&
+         sudo cp /tmp/docker-machine /usr/local/bin/docker-machine
+  
+    - name: Install Docker Machine Driver KVM  
+      shell: |
+         curl -L https://github.com/dhiltgen/docker-machine-kvm/releases/download/v0.8.2/docker-machine-driver-kvm -o /usr/local/bin/docker-machine-driver-kvm
+         chmod +x /usr/local/bin/docker-machine-driver-kvm
+
+    - name: Install IBM Cloud CLI
+      ansible.builtin.shell: curl -fsSL https://clis.cloud.ibm.com/install/linux | sh
+      args:
+        executable: /bin/zsh

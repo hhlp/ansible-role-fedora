@@ -1,0 +1,157 @@
+---
+  - name: "Setup local Fedora 35 system (root)"
+    hosts: localhost
+    connection: local
+    become: yes
+    tasks:  
+
+    - name: Set hostname to FedoraBox
+      ansible.builtin.hostname:
+        name: FedoraBox
+        use: systemd
+
+    - name: Install rpm fusion repo 
+      dnf:
+        name: 
+            - 'https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-35.noarch.rpm'
+            - 'https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-35.noarch.rpm'
+        disable_gpg_check: yes
+        state: present
+
+    - name: enable copr
+      yum_repository:
+          name: "copr:copr.fedorainfracloud.org:{{ item[0] }}:{{ item[1] }}"
+          file: "_copr:copr.fedorainfracloud.org:{{ item[0] }}:{{ item[1] }}"
+          description: "{{ item[2] }}"
+          baseurl: "{{ copr_url }}/results/{{ item[0] }}/{{ item[1] }}/fedora-$releasever-$basearch/"
+          gpgkey: "{{ copr_url }}/results/{{ item[0] }}/{{ item[1] }}/pubkey.gpg"
+          gpgcheck: yes
+          enabled: yes
+          skip_if_unavailable: yes
+      vars:
+          copr_url: https://download.copr.fedorainfracloud.org
+      loop:
+          - [atim, bottom, "Copr repo for bottom"]
+          - [atim, chosse, "Copr repo for choose"]
+          - [atim, gping, "Copr repo for gping"]
+          - [atim, lazydocker, "Copr repo for lazydocker"]
+          - [atim, starship, "Copr repo for startship"]          
+          - [oprizal, timeshift-upstream, "Copr repo for timeshift"]
+
+    - name: Install program from a remote repo
+      dnf:
+        name: 
+           - https://snort.org/downloads/snort/snort-2.9.19-1.f35.x86_64.rpm
+           - https://zoom.us/client/latest/zoom_x86_64.rpm
+           - https://github.com/angryip/ipscan/releases/download/3.8.2/ipscan-3.8.2-1.x86_64.rpm
+           - https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm
+           - https://downloads.mongodb.com/compass/mongodb-compass-1.30.1.x86_64.rpm
+           - https://protonvpn.com/download/protonvpn-stable-release-1.0.1-1.noarch.rpm
+           - https://protonmail.com/download/bridge/protonmail-bridge-2.1.1-1.x86_64.rpm
+           - https://download.teamviewer.com/download/linux/teamviewer.x86_64.rpm
+           - https://prerelease.keybase.io/keybase_amd64.rpm
+        disable_gpg_check: True
+        state: present
+
+    - name: Install media codecs
+      dnf:
+        name: 
+            - gstreamer1-plugins-bad-* 
+            - gstreamer1-plugins-good-* 
+            - gstreamer1-plugins-base
+            - gstreamer1-plugin-openh264 
+            - gstreamer1-libav
+        exclude: gstreamer1-plugins-bad-free-devel
+        state: present
+        
+    - name: Creating a file with content mongodb repo
+      copy:
+        dest: "/etc/yum.repos.d/mongodb.repo"
+        content: |
+           [mongodb-enterprise-5.0]
+           name=MongoDB Enterprise Repository
+           baseurl=https://repo.mongodb.com/yum/redhat/8/mongodb-enterprise/5.0/$basearch/
+           gpgcheck=1
+           enabled=1
+           gpgkey=https://www.mongodb.org/static/pgp/server-5.0.asc
+
+           [mongodb-org-5.0]
+           name=MongoDB Community Repository
+           baseurl=https://repo.mongodb.org/yum/redhat/8/mongodb-org/5.0/x86_64/
+           gpgcheck=1
+           enabled=1
+           gpgkey=https://www.mongodb.org/static/pgp/server-5.0.asc
+        mode: u+rw,g-r,o-r
+        owner: root
+        group: root  
+       
+     - name: Install mongodb tools
+       dnf:
+         name: 
+             - mongodb-mongosh
+#            - mongodb-enterprise-tools
+#            - mongodb-enterprise-database-tools-extra
+             - mongodb-database-tools
+         state: present
+   
+    - name: Creating a file with content gitHub Cli reop
+      copy:
+        dest: "/etc/yum.repos.d/gh-cli.repo"
+        content: |
+           [gh-cli]
+           name=packages for the GitHub CLI
+           baseurl=https://cli.github.com/packages/rpm
+           enabled=1
+           gpgkey=http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xc99b11deb97541f0
+        mode: u+rw,g-r,o-r
+        owner: root
+        group: root
+   
+    - name: Install gh-cli
+      dnf:
+        name: 
+            - gh
+        state: present
+        
+    - name: Download Balena-Etcher Repo 
+      get_url: 
+         url: https://dl.cloudsmith.io/public/balena/etcher/config.rpm.txt?distro=fedora&version=35&arch=x86_64
+         dest: /etc/yum.repos.d/balena-etcher.repo
+         mode: u+rw,g-r,o-r
+         owner: root
+         group: root
+
+    - name: Install balena etcher
+      dnf:
+        name: 
+            - balena-etcher-electron
+        disable_gpg_check: True    
+        state: present
+   
+    - name: Add Vivaldi/Brave Browser Repo  
+      shell: |
+             dnf config-manager --add-repo https://repo.vivaldi.com/archive/vivaldi-fedora.repo
+             sudo rpm --import https://brave-browser-rpm-release.s3.brave.com/brave-core.asc
+             dnf config-manager --add-repo https://brave-browser-rpm-release.s3.brave.com/x86_64/	   
+   
+    - name: Install Vivaldi/Brave Browser
+      dnf:
+        name: 
+            - vivaldi-stable
+            - brave-browser
+        state: present
+        
+    - name: Add Microsoft Edge Browser Repo  
+      shell: |
+             sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
+             sudo dnf config-manager --add-repo https://packages.microsoft.com/yumrepos/edge
+
+    - name: Install Microsoft Edge Browser
+      dnf:
+        name: 
+            - microsoft-edge-stable
+        state: present
+
+    - name: Install Etcher Repo  
+      shell: |
+             curl -1sLf 'https://dl.cloudsmith.io/public/balena/etcher/setup.rpm.sh' | sudo -E bash
