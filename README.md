@@ -18,6 +18,8 @@ and add these lines at the END of the File
 127.0.0.1   ansible_connection=local
 ```
 
+Execute the floow ansible in the order presnet below.
+
 1. Docker Playbook _f35-setup-docke.yaml_
 
 * Add Docker CE repo
@@ -87,6 +89,7 @@ You need to edit this file and add there all the plug-ins to install:
 - _f35-setup-programs.yaml_
 
 * Install common packages
+* Install some Data Science Packages via RPM
 
   - Execute:
 
@@ -105,4 +108,14 @@ You need to edit this file and add there all the plug-ins to install:
 
   ```
   ansible-playbook f35-setup-flatpak
+  ```
+
+- _f35-setup-pip.yaml_
+
+* Install some Data Science Packages via PIP
+
+  - Execute:
+
+  ```
+  ansible-playbook f35-setup-pip.yaml
   ```
