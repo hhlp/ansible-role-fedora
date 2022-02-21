@@ -64,6 +64,15 @@
           - 'org.nmap.Zenmap'
           - 'org.signal.Signal'
           - 'org.telegram.desktop'
+          - 'com.github.phase1geo.minder'
+          - 'com.jetbrains.RubyMine'
+          - 'com.jetbrains.PhpStorm'
+          - 'com.jetbrains.PhpStorm'
+          - 'com.jetbrains.DataGrip'
+          - 'com.jetbrains.WebStorm'
+          - 'com.jetbrains.PyCharm-Professional'
+          - 'com.jetbrains.IntelliJ-IDEA-Ultimate'
+          - 'com.jetbrains.CLion'
 
     - name: Disable Gnome software download update
       community.general.dconf:

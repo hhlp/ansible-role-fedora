@@ -162,6 +162,7 @@
             - 'seahorse-nautilus'
             - 'setools-console'
             - 'setroubleshoot'
+            - 'simplescreenrecorder'
             - 'skopeo'
             - 'snapper'
             - 'snort'
