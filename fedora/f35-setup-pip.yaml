@@ -5,27 +5,7 @@
     become: no
     tasks:  
 
-  - name: Install XGBoost within a user home directory
+  - name: Install Data Science Modules via PIP
     pip:
-      name: xgboost
+      name: xgboost, imblearn, shap, keras, tensorflow
       extra_args: --user
-
-  - name: Install Imbalanced Learn within a user home directory
-    pip:
-      name: imblearn
-      extra_args: --user
-    
-  - name: Install shap Learn within a user home directory
-    pip:
-      name: shap
-      extra_args: --user
-    
-  - name: Install keras within a user home directory
-    pip:
-      name: keras
-      extra_args: --user
-    
-  - name: Install tensorflow Learn within a user home directory
-    pip:
-      name: tensorflow
-      extra_args: --user        
