@@ -7,5 +7,5 @@
 
   - name: Install Data Science Modules via PIP
     pip:
-      name: xgboost, imblearn, shap, keras, tensorflow
+      name: xgboost, imblearn, shap, keras, tensorflow, gdbgui, tiptop
       extra_args: --user
