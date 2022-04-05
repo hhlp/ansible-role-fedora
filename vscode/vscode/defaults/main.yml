@@ -64,7 +64,6 @@ vscode_extensions:
   - 'ms-kubernetes-tools.vscode-aks-tools'
   - 'ms-kubernetes-tools.vscode-kubernetes-tools'
   - 'ms-python.python'
-  - 'ms-python.vscode-pylance'
   - 'ms-toolsai.jupyter'
   - 'ms-toolsai.jupyter-keymap'
   - 'ms-toolsai.jupyter-renderers'
@@ -83,6 +82,7 @@ vscode_extensions:
   - 'ms-vsliveshare.vsliveshare-pack'
   - 'mtxr.sqltools'
   - 'mushan.vscode-paste-image'
+  - 'PKief.material-icon-theme'
   - 'netcorext.uuid-generator'
   - 'octref.vetur'
   - 'oderwat.indent-rainbow'
@@ -110,7 +110,15 @@ vscode_extensions:
   - 'yzhang.dictionary-completion'
   - 'yzhang.markdown-all-in-one'
   - 'zowe.vscode-extension-for-zowe'
-  - 'zowe.zowe-explorer-ftp-extension'  
+  - 'zowe.zowe-explorer-ftp-extension'
+  - 'njpwerner.autodocstring'
+  - 'KevinRose.vsc-python-indent'
+  - 'MeshIntelligentTechnologiesInc.pieces-vscode'
+  - 'ChakrounAnas.turbo-console-log'
+  - 'Oracle.mysql-shell-for-vs-code'
+  - 'ms-vscode.live-server'
+  - 'ms-python.pylint'
+  - 'ms-python.vscode-pylance
    
 vscode_use_config: True
 

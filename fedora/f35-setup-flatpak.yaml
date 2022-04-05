@@ -72,6 +72,7 @@
           - 'com.jetbrains.PyCharm-Professional'
           - 'com.jetbrains.IntelliJ-IDEA-Ultimate'
           - 'com.jetbrains.CLion'
+          - 'org.shotcut.Shotcut'
 
     - name: Disable Gnome software download update
       community.general.dconf:
