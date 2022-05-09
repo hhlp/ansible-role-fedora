@@ -118,7 +118,10 @@ vscode_extensions:
   - 'Oracle.mysql-shell-for-vs-code'
   - 'ms-vscode.live-server'
   - 'ms-python.pylint'
-  - 'ms-python.vscode-pylance
+  - 'ms-python.vscode-pylance'
+  - 'eg2.vscode-npm-script'
+  - 'burkeholland.simple-react-snippets'
+  - 'afterschool.depot'
    
 vscode_use_config: True
 
