@@ -122,6 +122,8 @@ vscode_extensions:
   - 'eg2.vscode-npm-script'
   - 'burkeholland.simple-react-snippets'
   - 'afterschool.depot'
+  - 'TeamHub.teamhub'
+  - 'Gruntfuggly.todo-tree'
    
 vscode_use_config: True
 

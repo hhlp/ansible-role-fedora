@@ -226,6 +226,9 @@
 	    - 'gnome-console-nautilus'
 	    - 'helm'
 	    - 'spice-webdavd'
+	    - 'v4l2loopback' 
+	    - 'kmod-v4l2loopback'
+	    - 'obs-studio'
 # Programs for Data Science
             - 'python3-notebook'
             - 'mathjax'
