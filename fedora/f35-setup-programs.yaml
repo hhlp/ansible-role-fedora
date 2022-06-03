@@ -238,6 +238,7 @@
             - 'geany-plugins-debugger'
             - 'geany-plugins-sendmail'
             - 'geany-plugins-scope'
+            - 'kubernetes-client'
 # Programs for Data Science
             - 'python3-notebook'
             - 'mathjax'
