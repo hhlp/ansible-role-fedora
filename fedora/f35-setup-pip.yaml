@@ -7,6 +7,6 @@
 
   - name: Install Data Science Modules via PIP
     pip:
-      name: xgboost, imblearn, shap, keras, tensorflow, gdbgui, tiptop, pynvim, neovim-remote, tldr, flake8, rich-cli
+      name: xgboost, imblearn, shap, keras, tensorflow, gdbgui, tiptop, pynvim, neovim-remote, tldr, flake8, rich-cli, black
 
       extra_args: --user

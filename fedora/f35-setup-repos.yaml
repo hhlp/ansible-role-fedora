@@ -157,3 +157,7 @@
     - name: Install Etcher Repo  
       shell: |
              curl -1sLf 'https://dl.cloudsmith.io/public/balena/etcher/setup.rpm.sh' | sudo -E bash
+
+    - name: Install zshplug  
+      shell: |
+	     curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh

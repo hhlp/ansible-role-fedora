@@ -75,6 +75,9 @@
           - 'org.shotcut.Shotcut'
           - 'org.electrum.electrum'
           - 'com.sindresorhus.Caprine'
+          - 'com.jetbrains.Rider'
+          - 'com.google.AndroidStudio'
+          - 'io.atom.Atom'
 
     - name: Disable Gnome software download update
       community.general.dconf:

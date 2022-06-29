@@ -190,6 +190,7 @@
             - 'texlive-pygmentex'
             - 'texlive-scheme-basic'
             - 'texstudio'
+            - 'texlive-texdoc'
             - 'the_silver_searcher'
             - 'thunderbird'
             - 'tilix'
@@ -250,5 +251,5 @@
             - 'python3-scikit-learn'
             - 'python3-sympy'
             - 'python3-dask+dataframe' 
-            - 'python3-nltk'           
-        state: present
+            - 'python3-nltk'
+         state: present
