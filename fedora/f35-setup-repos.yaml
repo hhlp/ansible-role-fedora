@@ -52,6 +52,7 @@
            - https://prerelease.keybase.io/keybase_amd64.rpm
            - https://github.com/peazip/PeaZip/releases/download/8.6.0/peazip-8.6.0.LINUX.Qt5-1.x86_64.rpm
            - https://desktop.docker.com/linux/main/amd64/docker-desktop-4.8.1-x86_64.rpm
+           - https://github.com/xxxserxxx/gotop/releases/download/v4.1.4/gotop_v4.1.4_linux_amd64.rpm
         disable_gpg_check: True
         state: present
 
@@ -161,3 +162,22 @@
     - name: Install zshplug  
       shell: |
 	     curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
+	     
+   - name: Creating a file with content notion repo
+      copy:
+        dest: "/etc/yum.repos.d/notion.repo"
+        content: |
+           [notion-repackaged]
+           name=notion-repackaged
+           baseurl=https://yum.fury.io/notion-repackaged/
+           enabled=1
+           gpgcheck=0
+        mode: u+rw,g-r,o-r
+        owner: root
+        group: root
+        
+     - name: Install notion
+      dnf:
+        name: 
+            - notion-app-enhanced
+        state: present

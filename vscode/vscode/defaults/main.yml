@@ -124,6 +124,14 @@ vscode_extensions:
   - 'afterschool.depot'
   - 'TeamHub.teamhub'
   - 'Gruntfuggly.todo-tree'
+  - 'Trunk.io'
+  - 'mintlify.document'
+  - 'gera2ld.markmap-vscode'
+  - 'meganrogge.template-string-converter'
+  - 'moalamri.inline-fold'
+  - 'ionutvmi.path-autocomplete'
+  - 'christian-kohler.path-intellisense'
+  - 'pranaygp.vscode-css-peek'
    
 vscode_use_config: True
 

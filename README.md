@@ -18,7 +18,11 @@ and add these lines at the END of the File
 127.0.0.1   ansible_connection=local
 ```
 
-Execute the floow ansible in the order presnet below.
+## Testing
+
+ansible localhost -m ping -i ansible_hosts
+
+Execute the folow ansible in the order present below.
 
 1. Docker Playbook _f35-setup-docke.yaml_
 

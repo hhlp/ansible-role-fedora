@@ -66,18 +66,20 @@
           - 'com.github.phase1geo.minder'
           - 'com.jetbrains.RubyMine'
           - 'com.jetbrains.PhpStorm'
-          - 'com.jetbrains.PhpStorm'
           - 'com.jetbrains.DataGrip'
           - 'com.jetbrains.WebStorm'
           - 'com.jetbrains.PyCharm-Professional'
+          - 'com.jetbrains.PyCharm-Community'
           - 'com.jetbrains.IntelliJ-IDEA-Ultimate'
+          - 'com.jetbrains.IntelliJ-IDEA-Community'
           - 'com.jetbrains.CLion'
+	  - 'com.jetbrains.Rider'
           - 'org.shotcut.Shotcut'
           - 'org.electrum.electrum'
           - 'com.sindresorhus.Caprine'
-          - 'com.jetbrains.Rider'
           - 'com.google.AndroidStudio'
           - 'io.atom.Atom'
+          - 'io.podman_desktop.PodmanDesktop'
 
     - name: Disable Gnome software download update
       community.general.dconf:
