@@ -1,0 +1,3 @@
+---
+- name: Configure local Fedora workstation
+  ansible.builtin.import_playbook: playbooks/local.yml

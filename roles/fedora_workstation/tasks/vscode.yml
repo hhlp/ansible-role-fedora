@@ -1,0 +1,69 @@
+---
+- name: Import Microsoft signing key
+  ansible.builtin.rpm_key:
+    key: https://packages.microsoft.com/keys/microsoft.asc
+    state: present
+
+- name: Configure Visual Studio Code repository
+  ansible.builtin.yum_repository:
+    name: vscode
+    description: Visual Studio Code
+    baseurl: https://packages.microsoft.com/yumrepos/vscode
+    enabled: true
+    gpgcheck: true
+    gpgkey: https://packages.microsoft.com/keys/microsoft.asc
+
+- name: Install Visual Studio Code
+  ansible.builtin.dnf5:
+    name: "{{ fedora_workstation_vscode_package }}"
+    state: present
+
+- name: Validate requested VS Code profiles
+  ansible.builtin.assert:
+    that:
+      - >-
+        (fedora_workstation_vscode_profiles
+        | difference(fedora_workstation_vscode_extension_profiles.keys() | list)
+        | length) == 0
+    fail_msg: >-
+      Unknown VS Code profile(s): {{ fedora_workstation_vscode_profiles |
+      difference(fedora_workstation_vscode_extension_profiles.keys() | list) | join(', ') }}
+
+- name: Initialize requested VS Code extension list
+  ansible.builtin.set_fact:
+    fedora_workstation_vscode_requested_extensions: []
+
+- name: Collect VS Code extensions from selected profiles
+  ansible.builtin.set_fact:
+    fedora_workstation_vscode_requested_extensions: >-
+      {{ fedora_workstation_vscode_requested_extensions +
+         fedora_workstation_vscode_extension_profiles[item] }}
+  loop: "{{ fedora_workstation_vscode_profiles }}"
+  loop_control:
+    label: "{{ item }}"
+
+- name: Merge extra and compatibility VS Code extensions
+  ansible.builtin.set_fact:
+    fedora_workstation_vscode_requested_extensions: >-
+      {{ (fedora_workstation_vscode_requested_extensions +
+          fedora_workstation_vscode_extra_extensions +
+          fedora_workstation_vscode_extensions) | unique | list }}
+
+- name: Query installed VS Code extensions
+  become: true
+  become_user: "{{ fedora_workstation_user }}"
+  ansible.builtin.command:
+    cmd: code --list-extensions
+  register: fedora_workstation_vscode_installed
+  changed_when: false
+
+- name: Install requested VS Code extensions
+  become: true
+  become_user: "{{ fedora_workstation_user }}"
+  ansible.builtin.command:
+    cmd: "code --install-extension {{ item }}"
+  loop: "{{ fedora_workstation_vscode_requested_extensions }}"
+  loop_control:
+    label: "{{ item }}"
+  when: item | lower not in (fedora_workstation_vscode_installed.stdout_lines | map('lower') | list)
+  changed_when: true

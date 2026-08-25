@@ -1,0 +1,894 @@
+---
+# Identity
+fedora_workstation_hostname: FedoraBox
+fedora_workstation_user: "{{ ansible_env.SUDO_USER | default(ansible_env.USER, true) }}"
+fedora_workstation_home: "{{ '/root' if fedora_workstation_user == 'root' else '/home/' ~ fedora_workstation_user }}"
+
+# Supported Fedora releases. Empty means any Fedora release; validation still
+# verifies ansible_distribution == Fedora.
+fedora_workstation_supported_releases: []
+
+# Main feature switches
+fedora_workstation_enable_repositories: true
+fedora_workstation_enable_packages: true
+fedora_workstation_enable_flatpak: true
+fedora_workstation_enable_python_tools: false
+fedora_workstation_enable_docker: false
+fedora_workstation_enable_vscode: false
+fedora_workstation_enable_nvidia: false
+fedora_workstation_enable_ai_clis: false
+
+# Third-party repositories and tools migrated from the original repository
+fedora_workstation_enable_mongodb: false
+fedora_workstation_enable_github_cli: true
+fedora_workstation_enable_browsers: false
+fedora_workstation_enable_brave: true
+fedora_workstation_enable_edge: true
+fedora_workstation_enable_vivaldi: true
+fedora_workstation_enable_balena_etcher: false
+fedora_workstation_enable_anydesk: false
+fedora_workstation_enable_warp: false
+fedora_workstation_enable_terraform: false
+fedora_workstation_enable_oh_my_zsh: false
+fedora_workstation_enable_zsh_plugins: true
+fedora_workstation_enable_zplug: false
+fedora_workstation_enable_acl_restore: false
+fedora_workstation_enable_local_kompose: false
+fedora_workstation_enable_dysk: false
+fedora_workstation_enable_wcurl: false
+fedora_workstation_enable_superfile: false
+fedora_workstation_enable_fx: false
+fedora_workstation_enable_doggo: false
+fedora_workstation_enable_antigravity_cli: false
+fedora_workstation_enable_warp_agent_cli: false
+
+# Source-defined third-party tool settings
+fedora_workstation_mongodb_packages:
+  - mongodb-mongosh
+  - mongodb-enterprise-tools
+  - mongodb-enterprise-database-tools-extra
+fedora_workstation_permissions_restore_file: "{{ fedora_workstation_home }}/permissions.txt"
+fedora_workstation_kompose_local_file: "{{ fedora_workstation_home }}/kompose"
+
+# Package management
+fedora_workstation_update_cache: true
+fedora_workstation_upgrade_all: false
+
+# Select only the workstation profiles required for this machine.
+fedora_workstation_profiles:
+  - base
+  - development
+  - python
+  - rust
+  - virtualization
+  - networking
+
+# Package profiles migrated from the historical workstation catalog.
+# Override any list from group_vars/all.yml when you want a smaller policy.
+fedora_workstation_package_profiles:
+  base:
+    - 'ack'
+    - 'asciinema'
+    - 'bat'
+    - 'bottom'
+    - 'bpytop'
+    - 'btrbk'
+    - 'btop'
+    - 'btrfs-assistant'
+    - 'ccze'
+    - 'choose'
+    - 'conky'
+    - 'cpulimit'
+    - 'curlie'
+    - 'clean-rpm-gpg-pubkey'
+    - 'dnf-utils'
+    - 'dracut-live'
+    - 'duply'
+    - 'duf'
+    - 'du-dust'
+    - 'eza'
+    - 'fd-find'
+    - 'gparted'
+    - 'gping'
+    - 'htop'
+    - 'httpie'
+    - 'hunspell-es'
+    - 'hyperfine'
+    - 'hyphen-es'
+    - 'inxi'
+    - 'jq'
+    - 'langpacks-core-es'
+    - 'langpacks-core-font-es'
+    - 'langpacks-en'
+    - 'langpacks-es'
+    - 'lbzip2'
+    - 'lnav'
+    - 'lsd'
+    - 'lshw'
+    - 'man-pages-es'
+    - 'most'
+    - 'ncdu'
+    - 'fastfetch'
+    - 'onefetch'
+    - 'neovim'
+    - 'nnn'
+    - 'nmon'
+    - 'procs'
+    - 'rcm'
+    - 'ripgrep'
+    - 'ugrep'
+    - 'rpmconf'
+    - 'sd'
+    - 'snapper'
+    - 'starship'
+    - 'task'
+    - 'the_silver_searcher'
+    - 'tig'
+    - 'timew'
+    - 'unrar'
+    - 'xkill'
+    - 'xset'
+    - 'zoxide'
+    - 'zsh'
+    - 'remove-retired-packages'
+    - 'sequoia-sq'
+  development:
+    - 'autoconf'
+    - 'automake'
+    - 'boost'
+    - 'clang'
+    - 'cmake'
+    - 'cmake-gui'
+    - 'codeblocks'
+    - 'codeblocks-contrib'
+    - 'copr-cli'
+    - 'difftastic'
+    - 'fedora-easy-karma'
+    - 'fedpkg'
+    - 'gcc-c++'
+    - 'gh'
+    - 'git-delta'
+    - 'git-lfs'
+    - 'git-cola'
+    - 'git-extras'
+    - 'golang'
+    - 'haskell-platform'
+    - 'imhex'
+    - 'meld'
+    - 'nodejs'
+    - 'perl'
+    - 'qt6-assistant'
+    - 'qt6-designer'
+    - 'qt6-qtbase'
+    - 'qt6-qttools'
+    - 'readline-devel'
+    - 'rr'
+    - 'ruby'
+    - 'ruby-devel'
+    - 'rubygems-devel'
+    - 'sqlitebrowser'
+    - 'stack'
+    - 'zeal'
+    - 'geany'
+    - 'geany-plugins-addons'
+    - 'geany-plugins-markdown'
+    - 'geany-plugins-git-changebar'
+    - 'geany-plugins-geanypg'
+    - 'geany-plugins-debugger'
+    - 'geany-plugins-sendmail'
+    - 'geany-plugins-scope'
+    - 'yamllint'
+    - 'inotify-tools'
+    - 'tito'
+    - 'clang-tools-extra'
+    - 'direnv'
+    - 'bats'
+    - 'shellcheck'
+    - 'ansible'
+    - 'ansible-collection-community-general'
+    - 'ansible-collection-community-docker'
+    - 'ansible-collection-community-kubernetes'
+    - 'ansible-collection-containers-podman'
+    - 'ansible-packaging'
+    - 'ansible-srpm-macros'
+    - 'ansible-collection-community-libvirt'
+    - 'diff-so-fancy'
+    - 'fedora-packager'
+  python:
+    - 'poetry'
+    - 'python3-dnf-plugin-snapper'
+    - 'python3-dnf-plugin-versionlock'
+    - 'python3-pipreqs'
+    - 'python3-pygments-markdown-lexer'
+    - 'python3-rich'
+    - 'python3-spyder'
+    - 'python3-virtualenvwrapper'
+    - 'python3-idle'
+    - 'python3-selenium'
+    - 'python3-btrfs'
+    - 'ruff'
+    - 'thonny'
+    - 'uv'
+    - 'python3-googletrans'
+    - 'python3-requests-kerberos'
+    - 'python3-flake8*'
+    - 'python3-pytest-flake8'
+    - 'python3-pep8-naming'
+    - 'pipenv'
+    - 'pelican'
+    - 'markdown'
+    - 'python3-ghp-import'
+    - 'python3-pybtex'
+  rust:
+    - 'cargo'
+    - 'rust'
+    - 'rustfmt'
+    - 'rust-gdb'
+    - 'rust-lldb'
+    - 'rust-src'
+  java:
+    - 'scala'
+    - 'junit5'
+    - 'jmock-junit5'
+    - 'jmock'
+    - 'java-11-openjdk-devel'
+    - 'java-17-openjdk-devel'
+    - 'java-latest-openjdk-devel'
+    - 'java-latest-openjdk'
+    - 'openjfx'
+  mainframe: []
+  virtualization:
+    - 'buildah'
+    - 'libvirt'
+    - 'qemu'
+    - 'skopeo'
+    - 'toolbox'
+    - 'vagrant'
+    - 'virt-manager'
+    - 'virt-viewer'
+    - 'swtpm-tools'
+    - 'edk2-ovmf'
+    - 'helm'
+    - 'spice-webdavd'
+    - 'kubernetes-client'
+  networking:
+    - 'ddclient'
+    - 'dynamips'
+    - 'firewall-config'
+    - 'gns3-gui'
+    - 'gns3-server'
+    - 'ipscan'
+    - 'ftp'
+    - 'lftp'
+    - 'nm-connection-editor-desktop'
+    - 'nmap'
+    - 'nmstate'
+    - 'nmstate-plugin-ovsdb'
+    - 'wavemon'
+    - 'wireshark'
+    - 'remmina'
+    - 'iperf'
+  security:
+    - 'aide'
+    - 'hashcat'
+    - 'lynis'
+    - 'pass'
+    - 'pcsc-tools'
+    - 'protonvpn-cli'
+    - 'protonvpn-gui'
+    - 'protonvpn-stable-release'
+    - 'seahorse'
+    - 'seahorse-nautilus'
+    - 'setools-console'
+    - 'setroubleshoot'
+    - 'snort'
+    - 'sscg'
+    - 'udica'
+  data_science:
+    - 'julia'
+    - 'rstudio'
+    - 'rstudio-desktop'
+    - 'python3-PyMuPDF'
+    - 'python3-notebook'
+    - 'mathjax'
+    - 'python3-seaborn'
+    - 'python3-lxml'
+    - 'python3-basemap'
+    - 'python3-scikit-image'
+    - 'python3-scikit-learn'
+    - 'python3-sympy'
+    - 'python3-dask+dataframe'
+    - 'python3-nltk'
+    - 'python3-pytorch'
+    - 'jupyterlab'
+    - 'jupyterlab-desktop'
+  multimedia:
+    - 'brasero'
+    - 'celluloid'
+    - 'cinelerra-gg'
+    - 'easyeffects'
+    - 'ffmpeg'
+    - 'lame'
+    - 'mplayer'
+    - 'mplayer-gui'
+    - 'mpv'
+    - 'pavucontrol'
+    - 'pitivi'
+    - 'simplescreenrecorder'
+    - 'sox'
+    - 'strawberry'
+    - 'vlc'
+    - 'v4l2loopback'
+    - 'kmod-v4l2loopback'
+    - 'obs-studio'
+    - 'v4l-utils'
+    - 'guvcview'
+    - 'vokoscreenNG'
+  latex:
+    - 'asciidoc-latex'
+    - 'rubygem-asciidoctor-pdf'
+    - 'texlive-academicons'
+    - 'texlive-babel-spanish'
+    - 'texlive-fontawesome5'
+    - 'texlive-imakeidx'
+    - 'texlive-minted'
+    - 'texlive-minted-doc'
+    - 'texlive-pygmentex'
+    - 'texlive-scheme-basic'
+    - 'texstudio'
+    - 'texlive-texdoc'
+    - 'texlive-geometry-doc'
+    - 'texlive-pgf-doc'
+    - 'texlive-pgf-pie'
+    - 'texlive-academicons-doc'
+    - 'texlive-biblatex-doc'
+    - 'texlive-amsmath-doc'
+    - 'texlive-blindtext'
+    - 'texlive-blindtext-doc'
+    - 'texlive-fancyhdr-doc'
+    - 'texlive-bigfoot-doc'
+    - 'texlive-endnotes'
+    - 'texlive-endnotes-doc'
+    - 'texlive-footmisc-doc'
+    - 'texlive-lipsum-doc'
+    - 'texlive-ncctools-doc'
+    - 'texlive-tools-doc'
+    - 'texlive-ntheorem-doc'
+    - 'texlive-mathtools-doc'
+    - 'texlive-charissil'
+    - 'texlive-doulossil'
+    - 'geany-plugins-latex'
+  gnome:
+    - 'alacarte'
+    - 'blivet-gui'
+    - 'dconf-editor'
+    - 'fonts-tweak-tool'
+    - 'gnome-builder'
+    - 'gnome-extensions-app'
+    - 'gnome-pomodoro'
+    - 'gnome-shell-extension-appindicator'
+    - 'gnome-shell-extension-dash-to-dock'
+    - 'gnome-shell-extension-emoji-selector'
+    - 'gnome-shell-extension-gpaste'
+    - 'gnome-shell-extension-openweather'
+    - 'gnome-text-editor'
+    - 'gnome-todo'
+    - 'gnome-tweaks'
+    - 'papirus-icon-theme'
+    - 'tilix'
+    - 'tilix-nautilus'
+    - 'yaru-theme'
+    - 'gnome-console'
+    - 'gnome-console-nautilus'
+    - 'emoji-picker'
+    - 'flameshot'
+    - 'peek'
+    - 'gnome-shell-extension-pop-shell'
+  optional_desktop:
+    - 'aajohan-comfortaa-fonts'
+    - 'balena-etcher-electron'
+    - 'brave-browser'
+    - 'breezy'
+    - 'bodhi-client'
+    - 'dkms'
+    - 'decibels'
+    - 'fontawesome5-fonts-all'
+    - 'filezilla'
+    - 'foliate'
+    - 'fontawesome-fonts'
+    - 'gimp'
+    - 'gnote'
+    - 'hexchat'
+    - 'zoitechat'
+    - 'keybase'
+    - 'lazydocker'
+    - 'mediawriter'
+    - 'mythes-es'
+    - 'nvtop'
+    - 'powerline-fonts'
+    - 'protonmail-bridge'
+    - 'qbittorrent'
+    - 'qutebrowser'
+    - 'rednotebook'
+    - 'teamviewer'
+    - 'thunderbird'
+    - 'timeshift'
+    - 'torbrowser-launcher'
+    - 'transmission'
+    - 'ulauncher'
+    - 'vivaldi-stable'
+    - 'wine'
+    - 'winetricks'
+    - 'xinput'
+    - 'zoom'
+    - 'google-noto-emoji-fonts'
+    - 'piper'
+    - 'xprop'
+    - 'awscli2'
+    - 'google-noto-sans-jp-fonts'
+    - 'adobe-source-han-code-jp-fonts'
+    - 'adobe-source-han-sans-jp-fonts'
+    - 'adobe-source-han-serif-jp-fonts'
+    - 'hanazono-fonts'
+    - 'sazanami-*'
+    - 'vlgothic-fonts'
+    - 'ipa-ex-*'
+    - 'ipa-gothic-fonts'
+    - 'ipa-mincho-fonts'
+    - 'nvidia-gpu-firmware'
+    - 'akmod-nvidia'
+    - 'xorg-x11-drv-nvidia-cuda'
+    - 'xorg-x11-drv-nvidia-cuda-libs'
+    - 'vdpauinfo'
+    - 'libva-vdpau-driver'
+    - 'libva-utils'
+
+# Packages that are intentionally outside the reusable profiles.
+fedora_workstation_extra_packages: []
+
+# RPM Fusion
+fedora_workstation_enable_rpmfusion: true
+
+# COPR repositories migrated from the original repository.
+fedora_workstation_enable_copr_repositories: true
+fedora_workstation_copr_repositories:
+  - owner: atim
+    project: bottom
+  - owner: atim
+    project: chosse
+  - owner: atim
+    project: gping
+  - owner: atim
+    project: lazydocker
+  - owner: atim
+    project: starship
+  - owner: timlau
+    project: yumex-ng
+  - owner: tofik
+    project: password-store
+  - owner: atim
+    project: lazygit
+  - owner: varlad
+    project: onefetch
+  - owner: ankursinha
+    project: rubygem-taskjuggler
+  - owner: "@rhel-lightspeed"
+    project: command-line-assistant
+  - owner: erikmn
+    project: dnf-ui
+
+# Arbitrary RPM repository files. Use only trusted HTTPS sources.
+fedora_workstation_repo_files: []
+# Example:
+#  - name: hashicorp
+#    url: https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
+
+# Stand-alone RPMs migrated from the original repository.
+# Stable/latest URLs are enabled by default. Version-pinned and Fedora-version-
+# pinned RPMs are retained but disabled until explicitly reviewed.
+fedora_workstation_enable_remote_rpms: true
+fedora_workstation_remote_rpm_catalog:
+  - name: zoom
+    url: "https://zoom.us/client/latest/zoom_x86_64.rpm"
+    enabled: true
+  - name: google-chrome
+    url: "https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm"
+    enabled: true
+  - name: teamviewer
+    url: "https://download.teamviewer.com/download/linux/teamviewer.x86_64.rpm"
+    enabled: true
+  - name: keybase
+    url: "https://prerelease.keybase.io/keybase_amd64.rpm"
+    enabled: true
+  - name: proton-mail
+    url: "https://proton.me/download/mail/linux/ProtonMail-desktop-beta.rpm"
+    enabled: true
+  - name: snort-legacy-f35
+    url: "https://snort.org/downloads/snort/snort-2.9.19-1.f35.x86_64.rpm"
+    enabled: false
+  - name: angry-ip-scanner-3.8.2
+    url: "https://github.com/angryip/ipscan/releases/download/3.8.2/ipscan-3.8.2-1.x86_64.rpm"
+    enabled: false
+  - name: mongodb-compass-1.30.1
+    url: "https://downloads.mongodb.com/compass/mongodb-compass-1.30.1.x86_64.rpm"
+    enabled: false
+  - name: protonvpn-release-1.0.1
+    url: "https://protonvpn.com/download/protonvpn-stable-release-1.0.1-1.noarch.rpm"
+    enabled: false
+  - name: protonmail-bridge-2.1.1
+    url: "https://protonmail.com/download/bridge/protonmail-bridge-2.1.1-1.x86_64.rpm"
+    enabled: false
+  - name: peazip-8.6.0
+    url: "https://github.com/peazip/PeaZip/releases/download/8.6.0/peazip-8.6.0.LINUX.Qt5-1.x86_64.rpm"
+    enabled: false
+  - name: docker-desktop-4.8.1
+    url: "https://desktop.docker.com/linux/main/amd64/docker-desktop-4.8.1-x86_64.rpm"
+    enabled: false
+  - name: gotop-4.1.4
+    url: "https://github.com/xxxserxxx/gotop/releases/download/v4.1.4/gotop_v4.1.4_linux_amd64.rpm"
+    enabled: false
+  - name: jupyterlab-desktop-3.6.1
+    url: "https://github.com/jupyterlab/jupyterlab-desktop/releases/download/v3.6.1-1/JupyterLab-Setup-Fedora.rpm"
+    enabled: false
+  - name: chezmoi-2.30.1
+    url: "https://github.com/twpayne/chezmoi/releases/download/v2.30.1/chezmoi-2.30.1-x86_64.rpm"
+    enabled: false
+  - name: bluejeans-2.33.2.4
+    url: "https://swdl.bluejeans.com/desktop-app/linux/2.33.2/BlueJeans_2.33.2.4.rpm"
+    enabled: false
+  - name: linux-assistant-0.5.3
+    url: "https://github.com/Jean28518/linux-assistant/releases/download/v0.5.3/linux-assistant-0.5.3-1.x86_64.rpm"
+    enabled: false
+  - name: imhex-1.34.0-fedora39
+    url: "https://github.com/WerWolv/ImHex/releases/download/v1.34.0/imhex-1.34.0-Fedora-39-x86_64.rpm"
+    enabled: false
+  - name: curlie-1.7.2
+    url: "https://github.com/rs/curlie/releases/download/v1.7.2/curlie_1.7.2_linux_amd64.rpm"
+    enabled: false
+  - name: neohtop-1.1.2
+    url: "https://github.com/Abdenasser/neohtop/releases/download/v1.1.2/NeoHtop_1.1.2_x86_64.rpm"
+    enabled: false
+  - name: gridtracker2
+    url: "https://download2.gridtracker.org/GridTracker2-2.250201.1-x86_64.rpm"
+    enabled: false
+  - name: gitkraken-gk-cli-3.0.2
+    url: "https://github.com/gitkraken/gk-cli/releases/download/v3.0.2/gk_3.0.2_linux_amd64.rpm"
+    enabled: false
+  - name: pwndbg-lldb-2026.02.18
+    url: "https://github.com/pwndbg/pwndbg/releases/download/2026.02.18/pwndbg-lldb-2026.02.18-1.x86_64.rpm"
+    enabled: false
+  - name: procs-0.14.11
+    url: "https://github.com/dalance/procs/releases/download/v0.14.11/procs-0.14.11-1.x86_64.rpm"
+    enabled: false
+  - name: github-copilot-1.1.0
+    url: "https://github.com/github/app/releases/download/v1.1.0/GitHub-Copilot-linux-x64.rpm"
+    enabled: false
+
+# Additional stand-alone RPM URLs that are not part of the preserved catalog.
+fedora_workstation_remote_rpms: []
+
+# Flatpak
+fedora_workstation_flatpak_method: user
+fedora_workstation_flatpak_remotes:
+  - name: flathub
+    url: https://dl.flathub.org/repo/flathub.flatpakrepo
+fedora_workstation_flatpak_packages:
+  - com.axosoft.GitKraken
+  - com.belmoussaoui.Obfuscate
+  - com.bitwarden.desktop
+  - com.calibre_ebook.calibre
+  - com.discordapp.Discord
+  - com.dropbox.Client
+  - com.github.robertsanseries.ciano
+  - com.github.xournalpp.xournalpp
+  - com.gitlab.bitseater.meteo
+  - com.meetfranz.Franz
+  - com.obsproject.Studio
+  - com.slack.Slack
+  - com.spotify.Client
+  - de.haeckerfelix.Fragments
+  - de.manuel_kehl.go-for-it
+  - fr.handbrake.ghb
+  - im.riot.Riot
+  - io.brackets.Brackets
+  - io.dbeaver.DBeaverCommunity
+  - io.exodus.Exodus
+  - io.github.gitahead.GitAhead
+  - io.github.obiwankennedy.HotShots
+  - io.github.shiftey.Desktop
+  - net.ankiweb.Anki
+  - net.codeindustry.MasterPDFEditor
+  - net.cozic.joplin_desktop
+  - net.sourceforge.jpdftweak.jPdfTweak
+  - org.audacityteam.Audacity
+  - org.freeplane.App
+  - org.gnome.GTG
+  - org.gnome.PasswordSafe
+  - org.jabref.jabref
+  - org.jdownloader.JDownloader
+  - org.jitsi.jitsi-meet
+  - org.ksnip.ksnip
+  - org.nmap.Zenmap
+  - org.signal.Signal
+  - org.telegram.desktop
+  - com.github.phase1geo.minder
+  - org.shotcut.Shotcut
+  - org.electrum.electrum
+  - com.google.AndroidStudio
+  - io.podman_desktop.PodmanDesktop
+  - org.zotero.Zotero
+  - org.mozilla.Thunderbird
+  - io.github.giantpinkrobots.flatsweep
+  - org.gnome.Solanum
+  - md.obsidian.Obsidian
+  - org.kde.kiten
+  - com.uploadedlobster.peek
+  - io.github.alainm23.planify
+  - com.usebottles.bottles
+  - net.lutris.Lutris
+  - org.kde.krita
+  - org.kde.kdenlive
+  - io.github.flattool.Warehouse
+  - io.github.diegopvlk.Dosage
+  - io.appflowy.AppFlowy
+  - com.bktus.gpgfrontend
+  - com.github.tchx84.Flatseal
+
+# Invalid/legacy identifiers retained for migration/audit purposes only.
+fedora_workstation_flatpak_legacy_source_ids:
+  - com.microsoft.Teams.flatpakref
+  - krita
+  - kdenline
+fedora_workstation_disable_gnome_software_auto_updates: false
+
+# Python CLI tools. pipx is preferred over `pip install --user` on modern Fedora.
+fedora_workstation_python_tools:
+  - black
+  - commitizen
+  - dtrx
+  - flake8
+  - glances
+  - httpie
+  - icdiff
+  - pipenv
+  - rich-cli
+  - tldr
+
+# Docker Engine (official Docker CE repository)
+fedora_workstation_docker_packages:
+  - docker-ce
+  - docker-ce-cli
+  - containerd.io
+  - docker-buildx-plugin
+  - docker-compose-plugin
+fedora_workstation_docker_users:
+  - "{{ fedora_workstation_user }}"
+fedora_workstation_docker_daemon_config: {}
+
+# VS Code
+fedora_workstation_vscode_package: code
+
+# Selected VS Code profiles. VS Code itself remains opt-in; when enabled,
+# this default reproduces the complete de-duplicated historical extension set.
+fedora_workstation_vscode_profiles:
+  - editor_productivity
+  - git_scm
+  - docs_markdown
+  - web
+  - python
+  - c_cpp
+  - java
+  - rust
+  - go
+  - databases
+  - containers_kubernetes
+  - cloud_remote
+  - remote_collaboration
+  - devops_iac
+  - mainframe
+  - ruby
+  - ai
+
+# Extension catalog grouped by purpose. Every unique extension from the
+# original list appears exactly once in this mapping.
+fedora_workstation_vscode_extension_profiles:
+  editor_productivity:
+    - 2gua.rainbow-brackets
+    - aaron-bond.better-comments
+    - cschlosser.doxdocgen
+    - editorconfig.editorconfig
+    - formulahendry.code-runner
+    - jock.svg
+    - josee9988.minifyall
+    - leodevbro.blockman
+    - louiswt.regexp-preview
+    - mechatroner.rainbow-csv
+    - ms-ceintl.vscode-language-pack-es
+    - ms-vscode.hexeditor
+    - mushan.vscode-paste-image
+    - PKief.material-icon-theme
+    - netcorext.uuid-generator
+    - oderwat.indent-rainbow
+    - pnp.polacode
+    - vscode-icons-team.vscode-icons
+    - vsls-contrib.codetour
+    - ChakrounAnas.turbo-console-log
+    - afterschool.depot
+    - TeamHub.teamhub
+    - Gruntfuggly.todo-tree
+    - moalamri.inline-fold
+    - chrmarti.regex
+    - fabiospampinato.vscode-todo-plus
+    - softwaredotcom.swdc-vscode
+    - humao.rest-client
+    - codestackr.superhero-extensions
+    - codestackr.codestackr-theme
+    - johnpapa.vscode-peacock
+    - usernamehw.errorlens
+    - pflannery.vscode-versionlens
+    - jgclark.vscode-todo-highlight
+    - AykutSarac.jsoncrack-vscode
+  git_scm:
+    - atlassian.atlascode
+    - axosoft.gitkraken-glo
+    - bierner.github-markdown-preview
+    - bierner.markdown-preview-github-styles
+    - cschleiden.vscode-github-actions
+    - donjayamanne.githistory
+    - eamodio.gitlens
+    - github.vscode-pull-request-github
+    - gitlab.gitlab-workflow
+    - knisterpeter.vscode-github
+    - mhutchie.git-graph
+    - vsls-contrib.gistfs
+    - waderyan.gitblame
+  docs_markdown:
+    - bierner.markdown-checkbox
+    - bierner.markdown-emoji
+    - bierner.markdown-yaml-preamble
+    - james-yu.latex-workshop
+    - jebbs.plantuml
+    - yzhang.dictionary-completion
+    - yzhang.markdown-all-in-one
+    - mintlify.document
+    - gera2ld.markmap-vscode
+    - yzane.markdown-pdf
+    - streetsidesoftware.code-spell-checker
+  web:
+    - dbaeumer.vscode-eslint
+    - dsznajder.es7-react-js-snippets
+    - ecmel.vscode-html-css
+    - esbenp.prettier-vscode
+    - formulahendry.auto-close-tag
+    - formulahendry.auto-complete-tag
+    - formulahendry.auto-rename-tag
+    - ms-vscode.vscode-typescript-next
+    - octref.vetur
+    - ritwickdey.liveserver
+    - wix.vscode-import-cost
+    - xabikos.javascriptsnippets
+    - ms-vscode.live-server
+    - eg2.vscode-npm-script
+    - burkeholland.simple-react-snippets
+    - meganrogge.template-string-converter
+    - ionutvmi.path-autocomplete
+    - christian-kohler.path-intellisense
+    - pranaygp.vscode-css-peek
+    - techer.open-in-browser
+    - anteprimorac.html-end-tag-labels
+    - ms-edgedevtools.vscode-edge-devtools
+    - Syler.sass-indented
+    - glenn2223.live-sass
+    - lior-chamla.google-fonts
+    - bradlc.vscode-tailwindcss
+    - rodrigovallades.es7-react-js-snippets
+    - Postman.postman-for-vscode
+  python:
+    - frhtylcn.pythonsnippets
+    - ms-python.python
+    - ms-toolsai.jupyter
+    - ms-toolsai.jupyter-keymap
+    - ms-toolsai.jupyter-renderers
+    - njpwerner.autodocstring
+    - KevinRose.vsc-python-indent
+    - ms-python.pylint
+    - ms-python.vscode-pylance
+    - ms-toolsai.datawrangler
+  c_cpp:
+    - jeff-hykin.better-cpp-syntax
+    - ms-vscode.cmake-tools
+    - ms-vscode.cpptools
+    - ms-vscode.cpptools-extension-pack
+    - ms-vscode.cpptools-themes
+    - twxs.cmake
+  java:
+    - redhat.java
+    - vscjava.vscode-java-debug
+    - vscjava.vscode-java-dependency
+    - vscjava.vscode-java-pack
+    - vscjava.vscode-java-test
+    - vscjava.vscode-maven
+  rust:
+    - rust-lang.rust
+  go:
+    - golang.go
+  databases:
+    - bajdzis.vscode-database
+    - bradymholt.pgformatter
+    - mongodb.mongodb-vscode
+    - mtxr.sqltools
+    - Oracle.mysql-shell-for-vs-code
+  containers_kubernetes:
+    - ms-azuretools.vscode-docker
+    - ms-kubernetes-tools.vscode-aks-tools
+    - ms-kubernetes-tools.vscode-kubernetes-tools
+    - ms-vscode-remote.remote-containers
+  cloud_remote:
+    - github.codespaces
+    - github.remotehub
+    - mindaro-dev.file-downloader
+    - mindaro.mindaro
+    - ms-vscode.azure-account
+    - GoogleCloudTools.cloudcode
+  remote_collaboration:
+    - ms-vscode-remote.remote-ssh
+    - ms-vscode-remote.remote-wsl
+    - ms-vsliveshare.vsliveshare
+    - ms-vsliveshare.vsliveshare-audio
+    - ms-vsliveshare.vsliveshare-pack
+    - ms-vscode-remote.vscode-remote-extensionpack
+  devops_iac:
+    - hcl.hcl-ztools
+    - redhat.ansible
+    - redhat.vscode-yaml
+    - Trunk.io
+  mainframe:
+    - broadcommfd.ccf
+    - broadcommfd.cobol-language-support
+    - broadcommfd.code4z-extension-pack
+    - broadcommfd.data-set-viewer
+    - broadcommfd.debugger-for-mainframe
+    - broadcommfd.explorer-for-endevor
+    - broadcommfd.hlasm-language-support
+    - broadcommfd.jcl-language-support
+    - broadcommfd.lsp-for-rexx
+    - ibm.zopeneditor
+    - zowe.vscode-extension-for-zowe
+    - zowe.zowe-explorer-ftp-extension
+  ruby:
+    - rebornix.ruby
+    - wingrunr21.vscode-ruby
+  ai:
+    - github.copilot
+    - visualstudioexptteam.vscodeintellicode
+    - MeshIntelligentTechnologiesInc.pieces-vscode
+    - Blackboxapp.blackbox
+    - TabNine.tabnine-vscode
+    - GitHub.copilot-labs
+    - JayBarnes.chatgpt-vscode-plugin
+    - DanielSanMedium.dscodegpt
+    - Google.geminicodeassist
+
+# Extra extensions may be added without modifying the preserved profile catalog.
+fedora_workstation_vscode_extra_extensions: []
+
+# Compatibility list: values supplied here are also merged into the requested set.
+fedora_workstation_vscode_extensions: []
+
+# Duplicate entries found in the original source list, retained for audit only.
+fedora_workstation_vscode_duplicate_extensions:
+  - ms-vscode-remote.remote-containers
+  - dsznajder.es7-react-js-snippets
+  - ms-python.python
+  - ms-vscode.cpptools-extension-pack
+  - ms-vscode.cmake-tools
+  - GitHub.copilot-labs
+# NVIDIA is opt-in and assumes RPM Fusion has been enabled.
+fedora_workstation_nvidia_packages:
+  - akmod-nvidia
+  - xorg-x11-drv-nvidia-cuda
+
+# AI command-line tools. They are intentionally optional and installed through npm.
+fedora_workstation_ai_npm_packages:
+  - "@anthropic-ai/claude-code"
+  - "@google/gemini-cli"

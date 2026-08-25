@@ -1,0 +1,26 @@
+---
+- name: Assert target is Fedora
+  ansible.builtin.assert:
+    that:
+      - ansible_facts.distribution == 'Fedora'
+    fail_msg: >-
+      This role only supports Fedora. Detected
+      {{ ansible_facts.distribution | default('unknown') }}.
+
+- name: Assert Fedora release is explicitly supported when list is configured
+  ansible.builtin.assert:
+    that:
+      - ansible_facts.distribution_major_version in fedora_workstation_supported_releases
+    fail_msg: >-
+      Fedora {{ ansible_facts.distribution_major_version }} is not in
+      fedora_workstation_supported_releases={{ fedora_workstation_supported_releases }}.
+  when: fedora_workstation_supported_releases | length > 0
+
+- name: Resolve workstation user
+  ansible.builtin.getent:
+    database: passwd
+    key: "{{ fedora_workstation_user }}"
+
+- name: Store workstation home directory
+  ansible.builtin.set_fact:
+    fedora_workstation_home: "{{ ansible_facts.getent_passwd[fedora_workstation_user][4] }}"

@@ -1,0 +1,57 @@
+---
+- name: Install RPM Fusion Free repository
+  ansible.builtin.dnf5:
+    name: >-
+      https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-{{
+      ansible_facts.distribution_major_version }}.noarch.rpm
+    state: present
+    disable_gpg_check: false
+  when: fedora_workstation_enable_rpmfusion | bool
+
+- name: Install RPM Fusion Nonfree repository
+  ansible.builtin.dnf5:
+    name: >-
+      https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{
+      ansible_facts.distribution_major_version }}.noarch.rpm
+    state: present
+    disable_gpg_check: false
+  when: fedora_workstation_enable_rpmfusion | bool
+
+- name: Enable configured COPR repositories
+  community.general.copr:
+    name: "{{ item.owner }}/{{ item.project }}"
+    state: enabled
+  loop: "{{ fedora_workstation_copr_repositories }}"
+  loop_control:
+    label: "{{ item.owner }}/{{ item.project }}"
+  when: fedora_workstation_enable_copr_repositories | bool
+
+- name: Install configured repository files
+  ansible.builtin.get_url:
+    url: "{{ item.url }}"
+    dest: "/etc/yum.repos.d/{{ item.name }}.repo"
+    owner: root
+    group: root
+    mode: '0644'
+  loop: "{{ fedora_workstation_repo_files }}"
+  loop_control:
+    label: "{{ item.name }}"
+
+- name: Build enabled stand-alone RPM list
+  ansible.builtin.set_fact:
+    fedora_workstation_enabled_remote_rpms: >-
+      {{ fedora_workstation_remote_rpm_catalog
+         | selectattr('enabled', 'equalto', true)
+         | map(attribute='url')
+         | list
+         + fedora_workstation_remote_rpms }}
+  when: fedora_workstation_enable_remote_rpms | bool
+
+- name: Install enabled stand-alone RPM packages
+  ansible.builtin.dnf5:
+    name: "{{ fedora_workstation_enabled_remote_rpms | unique | list }}"
+    state: present
+    disable_gpg_check: false
+  when:
+    - fedora_workstation_enable_remote_rpms | bool
+    - fedora_workstation_enabled_remote_rpms | length > 0

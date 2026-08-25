@@ -1,0 +1,69 @@
+---
+- name: Check whether permissions restore file exists
+  ansible.builtin.stat:
+    path: "{{ fedora_workstation_permissions_restore_file }}"
+  register: fedora_workstation_permissions_file
+  when: fedora_workstation_enable_acl_restore | bool
+
+- name: Restore ACLs from permissions file
+  ansible.builtin.command:
+    cmd: "setfacl --restore={{ fedora_workstation_permissions_restore_file }}"
+  when:
+    - fedora_workstation_enable_acl_restore | bool
+    - fedora_workstation_permissions_file.stat.exists
+  changed_when: true
+
+- name: Check whether local kompose binary exists
+  ansible.builtin.stat:
+    path: "{{ fedora_workstation_kompose_local_file }}"
+  register: fedora_workstation_kompose_file
+  when: fedora_workstation_enable_local_kompose | bool
+
+- name: Install local kompose binary
+  ansible.builtin.copy:
+    src: "{{ fedora_workstation_kompose_local_file }}"
+    dest: /usr/local/bin/kompose
+    owner: root
+    group: root
+    mode: "0755"
+    remote_src: true
+  when:
+    - fedora_workstation_enable_local_kompose | bool
+    - fedora_workstation_kompose_file.stat.exists
+
+- name: Install dysk
+  ansible.builtin.get_url:
+    url: https://dystroy.org/dysk/download/x86_64-linux/dysk
+    dest: /usr/local/bin/dysk
+    owner: root
+    group: root
+    mode: "0755"
+  when: fedora_workstation_enable_dysk | bool
+
+- name: Install wcurl
+  ansible.builtin.get_url:
+    url: https://github.com/curl/wcurl/releases/latest/download/wcurl
+    dest: /usr/local/bin/wcurl
+    owner: root
+    group: root
+    mode: "0755"
+  when: fedora_workstation_enable_wcurl | bool
+
+- name: Ensure local man1 directory exists
+  ansible.builtin.file:
+    path: /usr/local/share/man/man1
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  when: fedora_workstation_enable_wcurl | bool
+
+- name: Install wcurl man page
+  ansible.builtin.get_url:
+    url: https://github.com/curl/wcurl/releases/latest/download/wcurl.1
+    dest: /usr/local/share/man/man1/wcurl.1
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Rebuild man database
+  when: fedora_workstation_enable_wcurl | bool

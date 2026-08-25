@@ -1,0 +1,15 @@
+---
+- name: Configure Balena Etcher repository
+  ansible.builtin.get_url:
+    url: >-
+      https://dl.cloudsmith.io/public/balena/etcher/config.rpm.txt?distro=fedora&version={{
+      ansible_distribution_major_version }}&arch={{ ansible_architecture }}
+    dest: /etc/yum.repos.d/balena-etcher.repo
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Install Balena Etcher
+  ansible.builtin.dnf5:
+    name: balena-etcher-electron
+    state: present

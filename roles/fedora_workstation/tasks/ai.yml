@@ -1,0 +1,12 @@
+---
+- name: Ensure npm is installed
+  ansible.builtin.dnf5:
+    name: npm
+    state: present
+
+- name: Install optional AI CLI packages
+  community.general.npm:
+    name: "{{ item }}"
+    global: true
+    state: latest
+  loop: "{{ fedora_workstation_ai_npm_packages }}"

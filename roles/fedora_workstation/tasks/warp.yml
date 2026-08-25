@@ -1,0 +1,14 @@
+---
+- name: Configure Warp repository
+  ansible.builtin.yum_repository:
+    name: warpdotdev
+    description: Warp terminal
+    baseurl: https://releases.warp.dev/linux/rpm/stable
+    enabled: true
+    gpgcheck: true
+    gpgkey: https://releases.warp.dev/linux/keys/warp.asc
+
+- name: Install Warp terminal
+  ansible.builtin.dnf5:
+    name: warp-terminal
+    state: present

@@ -1,0 +1,17 @@
+---
+- name: Set workstation hostname
+  ansible.builtin.hostname:
+    name: "{{ fedora_workstation_hostname }}"
+    use: systemd
+  when: fedora_workstation_hostname | length > 0
+
+- name: Refresh DNF metadata
+  ansible.builtin.dnf5:
+    update_cache: true
+  when: fedora_workstation_update_cache | bool
+
+- name: Upgrade all installed packages
+  ansible.builtin.dnf5:
+    name: '*'
+    state: latest
+  when: fedora_workstation_upgrade_all | bool

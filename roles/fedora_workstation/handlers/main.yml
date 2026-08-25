@@ -1,0 +1,9 @@
+---
+- name: Restart Docker
+  ansible.builtin.systemd_service:
+    name: docker
+    state: restarted
+
+- name: Rebuild man database
+  ansible.builtin.command: mandb
+  changed_when: true

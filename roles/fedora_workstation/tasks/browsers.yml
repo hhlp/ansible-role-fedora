@@ -1,0 +1,44 @@
+---
+- name: Configure Vivaldi repository
+  ansible.builtin.get_url:
+    url: https://repo.vivaldi.com/archive/vivaldi-fedora.repo
+    dest: /etc/yum.repos.d/vivaldi.repo
+    owner: root
+    group: root
+    mode: "0644"
+  when: fedora_workstation_enable_vivaldi | bool
+
+- name: Configure Brave repository
+  ansible.builtin.yum_repository:
+    name: brave-browser
+    description: Brave Browser
+    baseurl: https://brave-browser-rpm-release.s3.brave.com/x86_64/
+    enabled: true
+    gpgcheck: true
+    gpgkey: https://brave-browser-rpm-release.s3.brave.com/brave-core.asc
+  when: fedora_workstation_enable_brave | bool
+
+- name: Configure Microsoft Edge repository
+  ansible.builtin.yum_repository:
+    name: microsoft-edge-stable
+    description: Microsoft Edge Stable
+    baseurl: https://packages.microsoft.com/yumrepos/edge
+    enabled: true
+    gpgcheck: true
+    gpgkey: https://packages.microsoft.com/keys/microsoft.asc
+  when: fedora_workstation_enable_edge | bool
+
+- name: Build selected browser package list
+  ansible.builtin.set_fact:
+    fedora_workstation_selected_browser_packages: >-
+      {{
+        ([] if not fedora_workstation_enable_brave else ['brave-browser'])
+        + ([] if not fedora_workstation_enable_edge else ['microsoft-edge-stable'])
+        + ([] if not fedora_workstation_enable_vivaldi else ['vivaldi-stable'])
+      }}
+
+- name: Install selected browsers
+  ansible.builtin.dnf5:
+    name: "{{ fedora_workstation_selected_browser_packages }}"
+    state: present
+  when: fedora_workstation_selected_browser_packages | length > 0

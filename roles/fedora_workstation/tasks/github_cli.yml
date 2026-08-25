@@ -1,0 +1,14 @@
+---
+- name: Configure GitHub CLI repository
+  ansible.builtin.yum_repository:
+    name: gh-cli
+    description: Packages for the GitHub CLI
+    baseurl: https://cli.github.com/packages/rpm
+    enabled: true
+    gpgcheck: true
+    gpgkey: https://cli.github.com/packages/githubcli-archive-keyring.gpg
+
+- name: Install GitHub CLI
+  ansible.builtin.dnf5:
+    name: gh
+    state: present

@@ -1,0 +1,62 @@
+---
+# Override role defaults here. Keep secrets out of this file.
+
+fedora_workstation_hostname: FedoraBox
+
+# Feature switches
+fedora_workstation_enable_repositories: true
+fedora_workstation_enable_packages: true
+fedora_workstation_enable_flatpak: true
+fedora_workstation_enable_python_tools: false
+fedora_workstation_enable_docker: false
+fedora_workstation_enable_vscode: false
+fedora_workstation_enable_nvidia: false
+fedora_workstation_enable_ai_clis: false
+
+# Third-party repositories and workstation tools
+fedora_workstation_enable_mongodb: false
+fedora_workstation_enable_github_cli: true
+fedora_workstation_enable_browsers: false
+fedora_workstation_enable_brave: true
+fedora_workstation_enable_edge: true
+fedora_workstation_enable_vivaldi: true
+fedora_workstation_enable_balena_etcher: false
+fedora_workstation_enable_anydesk: false
+fedora_workstation_enable_warp: false
+fedora_workstation_enable_terraform: false
+fedora_workstation_enable_oh_my_zsh: false
+fedora_workstation_enable_zsh_plugins: true
+fedora_workstation_enable_zplug: false
+fedora_workstation_enable_acl_restore: false
+fedora_workstation_enable_local_kompose: false
+fedora_workstation_enable_dysk: false
+fedora_workstation_enable_wcurl: false
+fedora_workstation_enable_superfile: false
+fedora_workstation_enable_fx: false
+fedora_workstation_enable_doggo: false
+fedora_workstation_enable_antigravity_cli: false
+fedora_workstation_enable_warp_agent_cli: false
+
+# Workstation package profiles. Keep only the groups this machine needs.
+fedora_workstation_profiles:
+  - base
+  - development
+  - python
+  - rust
+  - virtualization
+  - networking
+
+# Example user customizations:
+# fedora_workstation_user: hhlp
+# fedora_workstation_extra_packages:
+#   - podman
+# VS Code profiles can be reduced from the full default catalog, for example:
+# fedora_workstation_vscode_profiles:
+#   - editor_productivity
+#   - git_scm
+#   - docs_markdown
+#   - python
+#   - devops_iac
+#   - mainframe
+# fedora_workstation_vscode_extra_extensions:
+#   - tamasfe.even-better-toml

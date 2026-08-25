@@ -1,0 +1,96 @@
+---
+- name: Ensure optional installer cache directory exists
+  become: true
+  become_user: "{{ fedora_workstation_user }}"
+  ansible.builtin.file:
+    path: "{{ fedora_workstation_home }}/.cache/ansible-fedora-installers"
+    state: directory
+    mode: "0755"
+  when:
+    - fedora_workstation_enable_superfile | bool or
+      fedora_workstation_enable_fx | bool or
+      fedora_workstation_enable_doggo | bool or
+      fedora_workstation_enable_antigravity_cli | bool or
+      fedora_workstation_enable_warp_agent_cli | bool
+
+- name: Download optional upstream installers
+  become: true
+  become_user: "{{ fedora_workstation_user }}"
+  ansible.builtin.get_url:
+    url: "{{ item.url }}"
+    dest: >-
+      {{ fedora_workstation_home }}/.cache/ansible-fedora-installers/{{ item.filename }}
+    mode: "0755"
+  loop:
+    - name: Superfile
+      enabled: "{{ fedora_workstation_enable_superfile }}"
+      url: https://superfile.netlify.app/install.sh
+      filename: superfile-install.sh
+      interpreter: /bin/bash
+      creates: "{{ fedora_workstation_home }}/.local/bin/spf"
+    - name: fx
+      enabled: "{{ fedora_workstation_enable_fx }}"
+      url: https://fx.wtf/install.sh
+      filename: fx-install.sh
+      interpreter: /bin/sh
+      creates: "{{ fedora_workstation_home }}/.local/bin/fx"
+    - name: doggo
+      enabled: "{{ fedora_workstation_enable_doggo }}"
+      url: https://raw.githubusercontent.com/mr-karan/doggo/main/install.sh
+      filename: doggo-install.sh
+      interpreter: /bin/sh
+      creates: "{{ fedora_workstation_home }}/.local/bin/doggo"
+    - name: Antigravity CLI
+      enabled: "{{ fedora_workstation_enable_antigravity_cli }}"
+      url: https://antigravity.google/cli/install.sh
+      filename: antigravity-install.sh
+      interpreter: /bin/bash
+      creates: "{{ fedora_workstation_home }}/.local/bin/agy"
+    - name: Warp Agent CLI
+      enabled: "{{ fedora_workstation_enable_warp_agent_cli }}"
+      url: https://app.warp.dev/download/agent-cli
+      filename: warp-agent-install.sh
+      interpreter: /bin/bash
+      creates: "{{ fedora_workstation_home }}/.local/bin/agent-cli"
+  loop_control:
+    label: "{{ item.name }}"
+  when: item.enabled | bool
+
+- name: Run optional upstream installers
+  become: true
+  become_user: "{{ fedora_workstation_user }}"
+  ansible.builtin.command:
+    argv:
+      - "{{ item.interpreter }}"
+      - >-
+        {{ fedora_workstation_home }}/.cache/ansible-fedora-installers/{{ item.filename }}
+    creates: "{{ item.creates }}"
+  loop:
+    - name: Superfile
+      enabled: "{{ fedora_workstation_enable_superfile }}"
+      filename: superfile-install.sh
+      interpreter: /bin/bash
+      creates: "{{ fedora_workstation_home }}/.local/bin/spf"
+    - name: fx
+      enabled: "{{ fedora_workstation_enable_fx }}"
+      filename: fx-install.sh
+      interpreter: /bin/sh
+      creates: "{{ fedora_workstation_home }}/.local/bin/fx"
+    - name: doggo
+      enabled: "{{ fedora_workstation_enable_doggo }}"
+      filename: doggo-install.sh
+      interpreter: /bin/sh
+      creates: "{{ fedora_workstation_home }}/.local/bin/doggo"
+    - name: Antigravity CLI
+      enabled: "{{ fedora_workstation_enable_antigravity_cli }}"
+      filename: antigravity-install.sh
+      interpreter: /bin/bash
+      creates: "{{ fedora_workstation_home }}/.local/bin/agy"
+    - name: Warp Agent CLI
+      enabled: "{{ fedora_workstation_enable_warp_agent_cli }}"
+      filename: warp-agent-install.sh
+      interpreter: /bin/bash
+      creates: "{{ fedora_workstation_home }}/.local/bin/agent-cli"
+  loop_control:
+    label: "{{ item.name }}"
+  when: item.enabled | bool

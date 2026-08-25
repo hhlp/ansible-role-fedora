@@ -1,0 +1,56 @@
+---
+- name: Install Oh My Zsh from Git
+  become: true
+  become_user: "{{ fedora_workstation_user }}"
+  ansible.builtin.git:
+    repo: https://github.com/ohmyzsh/ohmyzsh.git
+    dest: "{{ fedora_workstation_home }}/.oh-my-zsh"
+    version: master
+    update: true
+  when: fedora_workstation_enable_oh_my_zsh | bool
+
+- name: Install zsh-autosuggestions
+  become: true
+  become_user: "{{ fedora_workstation_user }}"
+  ansible.builtin.git:
+    repo: https://github.com/zsh-users/zsh-autosuggestions.git
+    dest: "{{ fedora_workstation_home }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+    version: master
+    update: true
+  when:
+    - fedora_workstation_enable_oh_my_zsh | bool
+    - fedora_workstation_enable_zsh_plugins | bool
+
+- name: Install zsh-syntax-highlighting
+  become: true
+  become_user: "{{ fedora_workstation_user }}"
+  ansible.builtin.git:
+    repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
+    dest: "{{ fedora_workstation_home }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+    version: master
+    update: true
+  when:
+    - fedora_workstation_enable_oh_my_zsh | bool
+    - fedora_workstation_enable_zsh_plugins | bool
+
+- name: Install zsh-autocomplete
+  become: true
+  become_user: "{{ fedora_workstation_user }}"
+  ansible.builtin.git:
+    repo: https://github.com/marlonrichert/zsh-autocomplete.git
+    dest: "{{ fedora_workstation_home }}/.oh-my-zsh/custom/plugins/zsh-autocomplete"
+    version: main
+    update: true
+  when:
+    - fedora_workstation_enable_oh_my_zsh | bool
+    - fedora_workstation_enable_zsh_plugins | bool
+
+- name: Install zplug from Git
+  become: true
+  become_user: "{{ fedora_workstation_user }}"
+  ansible.builtin.git:
+    repo: https://github.com/zplug/zplug.git
+    dest: "{{ fedora_workstation_home }}/.zplug"
+    version: master
+    update: true
+  when: fedora_workstation_enable_zplug | bool

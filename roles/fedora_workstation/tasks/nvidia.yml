@@ -1,0 +1,11 @@
+---
+- name: Assert RPM Fusion is enabled for NVIDIA installation
+  ansible.builtin.assert:
+    that:
+      - fedora_workstation_enable_rpmfusion | bool
+    fail_msg: NVIDIA installation requires fedora_workstation_enable_rpmfusion=true.
+
+- name: Install NVIDIA driver packages
+  ansible.builtin.dnf5:
+    name: "{{ fedora_workstation_nvidia_packages }}"
+    state: present

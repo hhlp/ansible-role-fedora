@@ -1,0 +1,13 @@
+---
+- name: Ensure pipx is installed
+  ansible.builtin.dnf5:
+    name: pipx
+    state: present
+
+- name: Install Python CLI applications with pipx
+  become: true
+  become_user: "{{ fedora_workstation_user }}"
+  community.general.pipx:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ fedora_workstation_python_tools }}"

@@ -1,0 +1,14 @@
+---
+- name: Configure AnyDesk repository
+  ansible.builtin.yum_repository:
+    name: anydesk
+    description: AnyDesk Stable
+    baseurl: "https://rpm.anydesk.com/centos/$basearch/"
+    enabled: true
+    gpgcheck: true
+    gpgkey: https://keys.anydesk.com/repos/RPM-GPG-KEY
+
+- name: Install AnyDesk
+  ansible.builtin.dnf5:
+    name: anydesk
+    state: present

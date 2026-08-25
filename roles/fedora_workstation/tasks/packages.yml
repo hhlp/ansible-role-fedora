@@ -1,0 +1,41 @@
+---
+- name: Validate requested package profiles
+  ansible.builtin.assert:
+    that:
+      - >-
+        fedora_workstation_profiles
+        | difference(fedora_workstation_package_profiles.keys() | list)
+        | length == 0
+    fail_msg: >-
+      Unknown package profile(s):
+      {{ fedora_workstation_profiles
+         | difference(fedora_workstation_package_profiles.keys() | list)
+         | join(', ') }}.
+      Available profiles are:
+      {{ fedora_workstation_package_profiles.keys() | sort | join(', ') }}.
+
+- name: Initialize selected package list
+  ansible.builtin.set_fact:
+    fedora_workstation_selected_packages: []
+
+- name: Collect packages from selected profiles
+  ansible.builtin.set_fact:
+    fedora_workstation_selected_packages: >-
+      {{ fedora_workstation_selected_packages
+         + fedora_workstation_package_profiles[item] }}
+  loop: "{{ fedora_workstation_profiles }}"
+  loop_control:
+    label: "{{ item }}"
+
+- name: Install selected workstation profile packages
+  ansible.builtin.dnf5:
+    name: >-
+      {{ (fedora_workstation_selected_packages
+          + fedora_workstation_extra_packages)
+         | unique
+         | list }}
+    state: present
+  when: >-
+    (fedora_workstation_selected_packages
+     + fedora_workstation_extra_packages)
+    | length > 0

@@ -1,0 +1,109 @@
+---
+- name: Validate target
+  ansible.builtin.import_tasks: validate.yml
+  tags: [always]
+
+- name: Configure base system
+  ansible.builtin.import_tasks: base.yml
+  tags: [base]
+
+- name: Configure repositories and stand-alone RPMs
+  ansible.builtin.import_tasks: repositories.yml
+  when: fedora_workstation_enable_repositories | bool
+  tags: [repositories, repos, copr, remote_rpms]
+
+- name: Configure MongoDB tools
+  ansible.builtin.import_tasks: mongodb.yml
+  when: fedora_workstation_enable_mongodb | bool
+  tags: [mongodb]
+
+- name: Configure GitHub CLI
+  ansible.builtin.import_tasks: github_cli.yml
+  when: fedora_workstation_enable_github_cli | bool
+  tags: [github_cli, gh]
+
+- name: Configure browser repositories and packages
+  ansible.builtin.import_tasks: browsers.yml
+  when: fedora_workstation_enable_browsers | bool
+  tags: [browsers]
+
+- name: Configure Balena Etcher
+  ansible.builtin.import_tasks: balena.yml
+  when: fedora_workstation_enable_balena_etcher | bool
+  tags: [balena, etcher]
+
+- name: Configure AnyDesk
+  ansible.builtin.import_tasks: remote_access.yml
+  when: fedora_workstation_enable_anydesk | bool
+  tags: [anydesk, remote_access]
+
+- name: Configure Warp terminal
+  ansible.builtin.import_tasks: warp.yml
+  when: fedora_workstation_enable_warp | bool
+  tags: [warp]
+
+- name: Configure HashiCorp and Terraform
+  ansible.builtin.import_tasks: hashicorp.yml
+  when: fedora_workstation_enable_terraform | bool
+  tags: [hashicorp, terraform]
+
+- name: Configure shell tools
+  ansible.builtin.import_tasks: shell.yml
+  when: >-
+    fedora_workstation_enable_oh_my_zsh | bool
+    or fedora_workstation_enable_zplug | bool
+  tags: [shell, zsh]
+
+- name: Configure local binaries and ACL restore
+  ansible.builtin.import_tasks: local_tools.yml
+  when: >-
+    fedora_workstation_enable_acl_restore | bool
+    or fedora_workstation_enable_local_kompose | bool
+    or fedora_workstation_enable_dysk | bool
+    or fedora_workstation_enable_wcurl | bool
+  tags: [local_tools, acl_restore, kompose, dysk, wcurl]
+
+- name: Install workstation packages
+  ansible.builtin.import_tasks: packages.yml
+  when: fedora_workstation_enable_packages | bool
+  tags: [packages]
+
+- name: Configure Flatpak applications
+  ansible.builtin.import_tasks: flatpak.yml
+  when: fedora_workstation_enable_flatpak | bool
+  tags: [flatpak]
+
+- name: Install Python CLI tools
+  ansible.builtin.import_tasks: python_tools.yml
+  when: fedora_workstation_enable_python_tools | bool
+  tags: [python, pipx]
+
+- name: Install Docker Engine
+  ansible.builtin.import_tasks: docker.yml
+  when: fedora_workstation_enable_docker | bool
+  tags: [docker]
+
+- name: Configure Visual Studio Code
+  ansible.builtin.import_tasks: vscode.yml
+  when: fedora_workstation_enable_vscode | bool
+  tags: [vscode]
+
+- name: Install NVIDIA drivers
+  ansible.builtin.import_tasks: nvidia.yml
+  when: fedora_workstation_enable_nvidia | bool
+  tags: [nvidia]
+
+- name: Install optional AI CLIs
+  ansible.builtin.import_tasks: ai.yml
+  when: fedora_workstation_enable_ai_clis | bool
+  tags: [ai]
+
+- name: Install optional upstream-script tools
+  ansible.builtin.import_tasks: optional_installers.yml
+  when: >-
+    fedora_workstation_enable_superfile | bool
+    or fedora_workstation_enable_fx | bool
+    or fedora_workstation_enable_doggo | bool
+    or fedora_workstation_enable_antigravity_cli | bool
+    or fedora_workstation_enable_warp_agent_cli | bool
+  tags: [optional_installers]

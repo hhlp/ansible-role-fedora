@@ -1,0 +1,6 @@
+.ansible/
+.cache/
+.venv/
+*.retry
+*.log
+inventory/host_vars/*/vault.yml

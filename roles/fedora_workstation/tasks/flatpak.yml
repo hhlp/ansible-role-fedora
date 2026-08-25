@@ -1,0 +1,34 @@
+---
+- name: Ensure Flatpak is installed
+  ansible.builtin.dnf5:
+    name: flatpak
+    state: present
+
+- name: Configure Flatpak remotes
+  become: "{{ fedora_workstation_flatpak_method == 'system' }}"
+  become_user: "{{ (fedora_workstation_flatpak_method == 'user') | ternary(fedora_workstation_user, omit) }}"
+  community.general.flatpak_remote:
+    name: "{{ item.name }}"
+    flatpakrepo_url: "{{ item.url }}"
+    method: "{{ fedora_workstation_flatpak_method }}"
+    state: present
+  loop: "{{ fedora_workstation_flatpak_remotes }}"
+
+- name: Install Flatpak applications
+  become: "{{ fedora_workstation_flatpak_method == 'system' }}"
+  become_user: "{{ (fedora_workstation_flatpak_method == 'user') | ternary(fedora_workstation_user, omit) }}"
+  community.general.flatpak:
+    name: "{{ fedora_workstation_flatpak_packages }}"
+    remote: flathub
+    method: "{{ fedora_workstation_flatpak_method }}"
+    state: present
+  when: fedora_workstation_flatpak_packages | length > 0
+
+- name: Disable GNOME Software automatic downloads
+  become: true
+  become_user: "{{ fedora_workstation_user }}"
+  community.general.dconf:
+    key: /org/gnome/software/download-updates
+    value: 'false'
+    state: present
+  when: fedora_workstation_disable_gnome_software_auto_updates | bool
