@@ -13,34 +13,34 @@ fedora_workstation_enable_repositories: true
 fedora_workstation_enable_packages: true
 fedora_workstation_enable_flatpak: true
 fedora_workstation_enable_python_tools: false
-fedora_workstation_enable_docker: false
-fedora_workstation_enable_vscode: false
+fedora_workstation_enable_docker: true
+fedora_workstation_enable_vscode: true
 fedora_workstation_enable_nvidia: false
-fedora_workstation_enable_ai_clis: false
+fedora_workstation_enable_ai_clis: true
 
 # Third-party repositories and tools migrated from the original repository
-fedora_workstation_enable_mongodb: false
+fedora_workstation_enable_mongodb: true
 fedora_workstation_enable_github_cli: true
-fedora_workstation_enable_browsers: false
+fedora_workstation_enable_browsers: true
 fedora_workstation_enable_brave: true
 fedora_workstation_enable_edge: true
 fedora_workstation_enable_vivaldi: true
 fedora_workstation_enable_balena_etcher: false
 fedora_workstation_enable_anydesk: false
-fedora_workstation_enable_warp: false
-fedora_workstation_enable_terraform: false
-fedora_workstation_enable_oh_my_zsh: false
+fedora_workstation_enable_warp: true
+fedora_workstation_enable_terraform: true
+fedora_workstation_enable_oh_my_zsh: true
 fedora_workstation_enable_zsh_plugins: true
-fedora_workstation_enable_zplug: false
+fedora_workstation_enable_zplug: true
 fedora_workstation_enable_acl_restore: false
-fedora_workstation_enable_local_kompose: false
-fedora_workstation_enable_dysk: false
-fedora_workstation_enable_wcurl: false
-fedora_workstation_enable_superfile: false
-fedora_workstation_enable_fx: false
-fedora_workstation_enable_doggo: false
-fedora_workstation_enable_antigravity_cli: false
-fedora_workstation_enable_warp_agent_cli: false
+fedora_workstation_enable_local_kompose: true
+fedora_workstation_enable_dysk: true
+fedora_workstation_enable_wcurl: true
+fedora_workstation_enable_superfile: true
+fedora_workstation_enable_fx: true
+fedora_workstation_enable_doggo: true
+fedora_workstation_enable_antigravity_cli: true
+fedora_workstation_enable_warp_agent_cli: true
 
 # Source-defined third-party tool settings
 fedora_workstation_mongodb_packages:
@@ -728,6 +728,10 @@ fedora_workstation_vscode_extension_profiles:
     - pflannery.vscode-versionlens
     - jgclark.vscode-todo-highlight
     - AykutSarac.jsoncrack-vscode
+    - rogalmic.bash-debug
+    - dual.zsh-completion-script
+    - rogalmic.zsh-debug
+    - rewdy.zshellcheck
   git_scm:
     - atlassian.atlascode
     - axosoft.gitkraken-glo
