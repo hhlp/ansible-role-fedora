@@ -28,6 +28,7 @@ fedora_workstation_enable_vivaldi: true
 fedora_workstation_enable_balena_etcher: false
 fedora_workstation_enable_anydesk: false
 fedora_workstation_enable_warp: true
+fedora_workstation_enable_nautilus: true
 fedora_workstation_enable_terraform: true
 fedora_workstation_enable_oh_my_zsh: true
 fedora_workstation_enable_zsh_plugins: true
@@ -505,64 +506,67 @@ fedora_workstation_remote_rpm_catalog:
     enabled: true
   - name: snort-legacy-f35
     url: "https://snort.org/downloads/snort/snort-2.9.19-1.f35.x86_64.rpm"
-    enabled: false
+    enabled: true
   - name: angry-ip-scanner-3.8.2
     url: "https://github.com/angryip/ipscan/releases/download/3.8.2/ipscan-3.8.2-1.x86_64.rpm"
-    enabled: false
+    enabled: true
   - name: mongodb-compass-1.30.1
     url: "https://downloads.mongodb.com/compass/mongodb-compass-1.30.1.x86_64.rpm"
-    enabled: false
+    enabled: true
   - name: protonvpn-release-1.0.1
     url: "https://protonvpn.com/download/protonvpn-stable-release-1.0.1-1.noarch.rpm"
-    enabled: false
+    enabled: ture
   - name: protonmail-bridge-2.1.1
     url: "https://protonmail.com/download/bridge/protonmail-bridge-2.1.1-1.x86_64.rpm"
-    enabled: false
+    enabled: true
   - name: peazip-8.6.0
     url: "https://github.com/peazip/PeaZip/releases/download/8.6.0/peazip-8.6.0.LINUX.Qt5-1.x86_64.rpm"
-    enabled: false
+    enabled: true
   - name: docker-desktop-4.8.1
     url: "https://desktop.docker.com/linux/main/amd64/docker-desktop-4.8.1-x86_64.rpm"
-    enabled: false
+    enabled: true
   - name: gotop-4.1.4
     url: "https://github.com/xxxserxxx/gotop/releases/download/v4.1.4/gotop_v4.1.4_linux_amd64.rpm"
-    enabled: false
+    enabled: true
   - name: jupyterlab-desktop-3.6.1
     url: "https://github.com/jupyterlab/jupyterlab-desktop/releases/download/v3.6.1-1/JupyterLab-Setup-Fedora.rpm"
-    enabled: false
+    enabled: true
   - name: chezmoi-2.30.1
     url: "https://github.com/twpayne/chezmoi/releases/download/v2.30.1/chezmoi-2.30.1-x86_64.rpm"
-    enabled: false
+    enabled: true
   - name: bluejeans-2.33.2.4
     url: "https://swdl.bluejeans.com/desktop-app/linux/2.33.2/BlueJeans_2.33.2.4.rpm"
-    enabled: false
+    enabled: true
   - name: linux-assistant-0.5.3
     url: "https://github.com/Jean28518/linux-assistant/releases/download/v0.5.3/linux-assistant-0.5.3-1.x86_64.rpm"
-    enabled: false
+    enabled: true
   - name: imhex-1.34.0-fedora39
     url: "https://github.com/WerWolv/ImHex/releases/download/v1.34.0/imhex-1.34.0-Fedora-39-x86_64.rpm"
-    enabled: false
+    enabled: true
   - name: curlie-1.7.2
     url: "https://github.com/rs/curlie/releases/download/v1.7.2/curlie_1.7.2_linux_amd64.rpm"
-    enabled: false
+    enabled: true
   - name: neohtop-1.1.2
     url: "https://github.com/Abdenasser/neohtop/releases/download/v1.1.2/NeoHtop_1.1.2_x86_64.rpm"
-    enabled: false
+    enabled: true
   - name: gridtracker2
     url: "https://download2.gridtracker.org/GridTracker2-2.250201.1-x86_64.rpm"
-    enabled: false
+    enabled: true
   - name: gitkraken-gk-cli-3.0.2
     url: "https://github.com/gitkraken/gk-cli/releases/download/v3.0.2/gk_3.0.2_linux_amd64.rpm"
-    enabled: false
+    enabled: true
   - name: pwndbg-lldb-2026.02.18
     url: "https://github.com/pwndbg/pwndbg/releases/download/2026.02.18/pwndbg-lldb-2026.02.18-1.x86_64.rpm"
-    enabled: false
+    enabled: true
   - name: procs-0.14.11
     url: "https://github.com/dalance/procs/releases/download/v0.14.11/procs-0.14.11-1.x86_64.rpm"
-    enabled: false
+    enabled: true
   - name: github-copilot-1.1.0
     url: "https://github.com/github/app/releases/download/v1.1.0/GitHub-Copilot-linux-x64.rpm"
-    enabled: false
+    enabled: true
+  - name: chatgpt-codex
+    url: "https://persistent.oaistatic.com/codex-app-prod/linux/rpm/latest/chatgpt.x86_64.rpm"
+    enabled: true
 
 # Additional stand-alone RPM URLs that are not part of the preserved catalog.
 fedora_workstation_remote_rpms: []
@@ -896,3 +900,4 @@ fedora_workstation_nvidia_packages:
 fedora_workstation_ai_npm_packages:
   - "@anthropic-ai/claude-code"
   - "@google/gemini-cli"
+  - "@openai/codex"
