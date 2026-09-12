@@ -135,4 +135,3 @@
     label: "{{ item.name }}"
 
   when: item.enabled | bool
-
