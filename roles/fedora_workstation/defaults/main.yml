@@ -91,6 +91,7 @@ fedora_workstation_package_profiles:
     - 'fd-find'
     - 'gparted'
     - 'gping'
+    - 'goose'
     - 'htop'
     - 'httpie'
     - 'hunspell-es'
@@ -399,7 +400,6 @@ fedora_workstation_package_profiles:
     - 'fontawesome-fonts'
     - 'gimp'
     - 'gnote'
-    - 'hexchat'
     - 'zoitechat'
     - 'keybase'
     - 'lazydocker'
@@ -477,6 +477,8 @@ fedora_workstation_copr_repositories:
     project: command-line-assistant
   - owner: erikmn
     project: dnf-ui
+  - owner: xyasharx
+    project: dendro
 
 # Arbitrary RPM repository files. Use only trusted HTTPS sources.
 fedora_workstation_repo_files: []
@@ -566,6 +568,9 @@ fedora_workstation_remote_rpm_catalog:
     enabled: true
   - name: chatgpt-codex
     url: "https://persistent.oaistatic.com/codex-app-prod/linux/rpm/latest/chatgpt.x86_64.rpm"
+    enabled: true
+  - name: kepler
+    url: "https://kepler.gitkraken.com/kepler-x64.rpm"
     enabled: true
 
 # Additional stand-alone RPM URLs that are not part of the preserved catalog.
