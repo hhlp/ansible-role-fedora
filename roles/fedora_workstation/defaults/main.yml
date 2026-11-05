@@ -479,6 +479,10 @@ fedora_workstation_copr_repositories:
     project: dnf-ui
   - owner: xyasharx
     project: dendro
+  - owner: che
+    project: nerd-fonts
+  - owner: elmodos
+    project: Kram
 
 # Arbitrary RPM repository files. Use only trusted HTTPS sources.
 fedora_workstation_repo_files: []
@@ -572,6 +576,9 @@ fedora_workstation_remote_rpm_catalog:
   - name: kepler
     url: "https://kepler.gitkraken.com/kepler-x64.rpm"
     enabled: true
+  - name: positron
+    url: "https://cdn.posit.co/positron/releases/rpm/x86_64/Positron-2026.10.2-3-x64.rpm"
+    enabled: true
 
 # Additional stand-alone RPM URLs that are not part of the preserved catalog.
 fedora_workstation_remote_rpms: []
@@ -642,6 +649,7 @@ fedora_workstation_flatpak_packages:
   - io.appflowy.AppFlowy
   - com.bktus.gpgfrontend
   - com.github.tchx84.Flatseal
+  - com.notion.app.desktop.notion
 
 # Invalid/legacy identifiers retained for migration/audit purposes only.
 fedora_workstation_flatpak_legacy_source_ids:
@@ -906,3 +914,5 @@ fedora_workstation_ai_npm_packages:
   - "@anthropic-ai/claude-code"
   - "@google/gemini-cli"
   - "@openai/codex"
+  - "@rivolink/leaf"
+  - "@ghgrab/ghgrab"
