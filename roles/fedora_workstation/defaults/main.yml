@@ -130,6 +130,7 @@ fedora_workstation_package_profiles:
     - 'unrar'
     - 'xkill'
     - 'xset'
+    - 'zellij'
     - 'zoxide'
     - 'zsh'
     - 'remove-retired-packages'
@@ -471,6 +472,8 @@ fedora_workstation_copr_repositories:
     project: lazygit
   - owner: varlad
     project: onefetch
+  - owner: varlad
+    project: zellij
   - owner: ankursinha
     project: rubygem-taskjuggler
   - owner: "@rhel-lightspeed"
