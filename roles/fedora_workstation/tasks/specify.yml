@@ -1,17 +1,33 @@
 ---
-- name: Install Spec Kit CLI via uv
-  hosts: all
-  vars:
-    target_user: "{{ ansible_user_id }}"
-    uv_bin_dir: "{{ ansible_env.HOME }}/.local/bin"
+- name: Install Git and uv for Spec Kit
+  ansible.builtin.dnf5:
+    name:
+      - git
+      - uv
+    state: present
 
-  tasks:
-    - name: Install specify-cli from GitHub via uv tool
+- name: Set up Spec Kit for the workstation user
+  become: true
+  become_user: "{{ fedora_workstation_user }}"
+  environment:
+    HOME: "{{ fedora_workstation_home }}"
+    UV_TOOL_BIN_DIR: "{{ fedora_workstation_home }}/.local/bin"
+  block:
+    - name: Install Specify CLI from GitHub
       ansible.builtin.command:
-        cmd: "{{ uv_bin_dir }}/uv tool install specify-cli --from git+https://github.com/github/spec-kit.git"
-      args:
-        # Ensures Ansible skips this task if the binary already exists
-        creates: "{{ uv_bin_dir }}/specify"
-      environment:
-        # Ensures uv and Python 3.11+ tools are found during execution
-        PATH: "{{ uv_bin_dir }}:{{ ansible_env.PATH }}"
+        argv:
+          - /usr/bin/uv
+          - tool
+          - install
+          - specify-cli
+          - --from
+          - git+https://github.com/github/spec-kit.git
+        creates: "{{ fedora_workstation_home }}/.local/bin/specify"
+
+    - name: Verify Specify CLI runs
+      ansible.builtin.command:
+        argv:
+          - "{{ fedora_workstation_home }}/.local/bin/specify"
+          - version
+      changed_when: false
+      when: not ansible_check_mode

@@ -97,7 +97,8 @@ ansible-galaxy collection install -r requirements.yml -p .ansible/collections
 │           ├── docker.yml
 │           ├── vscode.yml
 │           ├── nvidia.yml
-│           └── ai.yml
+│           ├── ai.yml
+│           └── specify.yml
 ├── requirements.yml
 ├── requirements-dev.txt
 ├── .ansible-lint
@@ -127,7 +128,11 @@ The provided inventory configures `localhost` with a local connection, so editin
 
 ## Feature switches
 
-The main switches live in `roles/fedora_workstation/defaults/main.yml` and should normally be overridden in `group_vars/all.yml`:
+The reusable values live in `roles/fedora_workstation/defaults/main.yml`.
+When running `site.yml`, Ansible loads `group_vars/all.yml` and gives its
+workstation overrides higher precedence. Add an entry there when you want to
+change a role default. The switches below show the effective values for
+`site.yml` with the provided configuration:
 
 ```yaml
 fedora_workstation_enable_repositories: true
@@ -138,6 +143,7 @@ fedora_workstation_enable_docker: false
 fedora_workstation_enable_vscode: false
 fedora_workstation_enable_nvidia: false
 fedora_workstation_enable_ai_clis: false
+fedora_workstation_enable_specify: false
 
 fedora_workstation_enable_mongodb: false
 fedora_workstation_enable_github_cli: true
@@ -229,6 +235,20 @@ List available tags:
 
 ```bash
 ansible-playbook site.yml --list-tags
+```
+
+## GitHub Spec Kit
+
+Set `fedora_workstation_enable_specify: true` in `group_vars/all.yml` to
+include Spec Kit in the workstation setup. The role installs Git and `uv`
+with DNF5, then installs `specify-cli` from
+[GitHub](https://github.com/github/spec-kit) into the workstation user's
+`~/.local/bin` and verifies it with `specify version`.
+
+To run just this feature, enable it for the invocation:
+
+```bash
+ansible-playbook site.yml --tags specify -e '{"fedora_workstation_enable_specify": true}' --ask-become-pass
 ```
 
 ## RPM Fusion and COPR
