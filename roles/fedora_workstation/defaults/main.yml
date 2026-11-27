@@ -17,6 +17,7 @@ fedora_workstation_enable_docker: true
 fedora_workstation_enable_vscode: true
 fedora_workstation_enable_nvidia: false
 fedora_workstation_enable_ai_clis: true
+fedora_workstation_enable_specify: false
 
 # Third-party repositories and tools migrated from the original repository
 fedora_workstation_enable_mongodb: true

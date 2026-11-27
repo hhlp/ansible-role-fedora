@@ -98,6 +98,11 @@
   when: fedora_workstation_enable_ai_clis | bool
   tags: [ai]
 
+- name: Install GitHub Spec Kit
+  ansible.builtin.import_tasks: specify.yml
+  when: fedora_workstation_enable_specify | bool
+  tags: [specify]
+
 - name: Install optional upstream-script tools
   ansible.builtin.import_tasks: optional_installers.yml
   when: >-
