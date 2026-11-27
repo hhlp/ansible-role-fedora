@@ -77,7 +77,7 @@ fedora_workstation_package_profiles:
     - 'btop'
     - 'btrfs-assistant'
     - 'ccze'
-    - 'choose'
+    - 'chosse'
     - 'conky'
     - 'cpulimit'
     - 'curlie'
@@ -113,6 +113,7 @@ fedora_workstation_package_profiles:
     - 'fastfetch'
     - 'onefetch'
     - 'neovim'
+    - 'kakone'
     - 'nnn'
     - 'nmon'
     - 'procs'
@@ -135,6 +136,15 @@ fedora_workstation_package_profiles:
     - 'zsh'
     - 'remove-retired-packages'
     - 'sequoia-sq'
+    - 'dnf-ui'
+    - 'dendro'
+    - 'Kram'
+    - 'nerd-fonts'
+    - 'range'
+    - 'lazygit'
+    - 'bat-extras'
+    - 'tmux'
+    - 'tmux-sesh'
   development:
     - 'autoconf'
     - 'automake'
@@ -222,6 +232,8 @@ fedora_workstation_package_profiles:
     - 'markdown'
     - 'python3-ghp-import'
     - 'python3-pybtex'
+    - 'python3-neovim'
+    - 'python3-sqlparse'
   rust:
     - 'cargo'
     - 'rust'
@@ -254,6 +266,7 @@ fedora_workstation_package_profiles:
     - 'helm'
     - 'spice-webdavd'
     - 'kubernetes-client'
+    - 'opentofu'
   networking:
     - 'ddclient'
     - 'dynamips'
@@ -486,6 +499,10 @@ fedora_workstation_copr_repositories:
     project: nerd-fonts
   - owner: elmodos
     project: Kram
+  - owner: awood
+    project: bat-extras
+  - owner: buckaroogeek
+    project: Tmux_sesh
 
 # Arbitrary RPM repository files. Use only trusted HTTPS sources.
 fedora_workstation_repo_files: []
@@ -582,6 +599,9 @@ fedora_workstation_remote_rpm_catalog:
   - name: positron
     url: "https://cdn.posit.co/positron/releases/rpm/x86_64/Positron-2026.10.2-3-x64.rpm"
     enabled: true
+  - name: tuxtalk
+    url: "https://github.com/ronb1964/TuxTalk/releases/download/v0.23.1/tuxtalk-0.23.1-1.x86_64.rpm"
+    enabled: true
 
 # Additional stand-alone RPM URLs that are not part of the preserved catalog.
 fedora_workstation_remote_rpms: []
@@ -630,7 +650,7 @@ fedora_workstation_flatpak_packages:
   - org.nmap.Zenmap
   - org.signal.Signal
   - org.telegram.desktop
-  - com.github.phase1geo.minder
+  - io.github.phase1geo.minder
   - org.shotcut.Shotcut
   - org.electrum.electrum
   - com.google.AndroidStudio
@@ -673,6 +693,8 @@ fedora_workstation_python_tools:
   - pipenv
   - rich-cli
   - tldr
+  - sqlit-tui
+  - gdbgui
 
 # Docker Engine (official Docker CE repository)
 fedora_workstation_docker_packages:

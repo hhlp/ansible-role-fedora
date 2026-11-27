@@ -1,0 +1,17 @@
+---
+- name: Install Spec Kit CLI via uv
+  hosts: all
+  vars:
+    target_user: "{{ ansible_user_id }}"
+    uv_bin_dir: "{{ ansible_env.HOME }}/.local/bin"
+
+  tasks:
+    - name: Install specify-cli from GitHub via uv tool
+      ansible.builtin.command:
+        cmd: "{{ uv_bin_dir }}/uv tool install specify-cli --from git+https://github.com/github/spec-kit.git"
+      args:
+        # Ensures Ansible skips this task if the binary already exists
+        creates: "{{ uv_bin_dir }}/specify"
+      environment:
+        # Ensures uv and Python 3.11+ tools are found during execution
+        PATH: "{{ uv_bin_dir }}:{{ ansible_env.PATH }}"
