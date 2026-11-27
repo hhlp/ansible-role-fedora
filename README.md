@@ -109,7 +109,9 @@ ansible-galaxy collection install -r requirements.yml -p .ansible/collections
 
 ## First run
 
-Clone the repository, install collections, review `group_vars/all.yml`, then run check mode first:
+Clone the repository, install collections, review
+`roles/fedora_workstation/defaults/main.yml` and any overrides in
+`group_vars/all.yml`, then run check mode first:
 
 ```bash
 git clone https://github.com/hhlp/ansible-role-fedora.git
@@ -128,49 +130,19 @@ The provided inventory configures `localhost` with a local connection, so editin
 
 ## Feature switches
 
-The reusable values live in `roles/fedora_workstation/defaults/main.yml`.
-When running `site.yml`, Ansible loads `group_vars/all.yml` and gives its
-workstation overrides higher precedence. Add an entry there when you want to
-change a role default. The switches below show the effective values for
-`site.yml` with the provided configuration:
+The active settings live in `roles/fedora_workstation/defaults/main.yml`.
+The shipped `group_vars/all.yml` contains an empty mapping. Replace `{}` with
+the settings you want to override for `site.yml`.
+
+For example, enable Python CLI tools and select a smaller package profile set:
 
 ```yaml
-fedora_workstation_enable_repositories: true
-fedora_workstation_enable_packages: true
-fedora_workstation_enable_flatpak: true
-fedora_workstation_enable_python_tools: false
-fedora_workstation_enable_docker: false
-fedora_workstation_enable_vscode: false
-fedora_workstation_enable_nvidia: false
-fedora_workstation_enable_ai_clis: false
-fedora_workstation_enable_specify: false
-
-fedora_workstation_enable_mongodb: false
-fedora_workstation_enable_github_cli: true
-fedora_workstation_enable_browsers: false
-fedora_workstation_enable_balena_etcher: false
-fedora_workstation_enable_anydesk: false
-fedora_workstation_enable_warp: false
-fedora_workstation_enable_terraform: false
-fedora_workstation_enable_oh_my_zsh: false
-fedora_workstation_enable_zplug: false
-fedora_workstation_enable_wcurl: false
-```
-
-For a developer workstation, for example:
-
-```yaml
-fedora_workstation_enable_docker: true
-fedora_workstation_enable_vscode: true
 fedora_workstation_enable_python_tools: true
 
 fedora_workstation_profiles:
   - base
   - development
   - python
-  - rust
-  - virtualization
-  - networking
 
 fedora_workstation_extra_packages:
   - podman
@@ -239,7 +211,7 @@ ansible-playbook site.yml --list-tags
 
 ## GitHub Spec Kit
 
-Set `fedora_workstation_enable_specify: true` in `group_vars/all.yml` to
+Replace `{}` in `group_vars/all.yml` with `fedora_workstation_enable_specify: true` to
 include Spec Kit in the workstation setup. The role installs Git and `uv`
 with DNF5, then installs `specify-cli` from
 [GitHub](https://github.com/github/spec-kit) into the workstation user's
@@ -471,7 +443,7 @@ ruby
 ai
 ```
 
-VS Code itself remains opt-in, but when enabled the default profile selection includes all profiles so the role reproduces the complete de-duplicated historical catalog. Override `fedora_workstation_vscode_profiles` in `group_vars/all.yml` for a smaller workstation.
+VS Code is enabled by default. The default profile selection includes all profiles from the historical catalog. Override `fedora_workstation_vscode_profiles` in `group_vars/all.yml` for a smaller workstation.
 
 For example:
 
