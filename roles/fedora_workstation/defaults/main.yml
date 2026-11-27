@@ -20,7 +20,7 @@ fedora_workstation_enable_ai_clis: true
 fedora_workstation_enable_specify: false
 
 # Third-party repositories and tools migrated from the original repository
-fedora_workstation_enable_mongodb: true
+fedora_workstation_enable_mongodb: false
 fedora_workstation_enable_github_cli: true
 fedora_workstation_enable_browsers: true
 fedora_workstation_enable_brave: true
